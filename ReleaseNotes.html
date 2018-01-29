@@ -1,0 +1,2175 @@
+﻿<!DOCTYPE HTML>
+<!DOCTYPE html PUBLIC "" ""><HTML><HEAD><META content="IE=11.0000" 
+http-equiv="X-UA-Compatible">
+ 
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8"> <LINK href="ReleaseNotes_files/ReleaseNotes.css" 
+rel="stylesheet"> 
+<META name="GENERATOR" content="MSHTML 11.00.9600.18763"></HEAD> 
+<BODY class="details">
+<DIV class="links">
+<UL>
+  <LI><A href="https://git-for-windows.github.io/">homepage</A></LI>
+  <LI><A href="https://github.com/git-for-windows/git/wiki/FAQ">faq</A></LI>
+  <LI><A 
+href="https://git-for-windows.github.io/#contribute">contribute</A></LI>
+  <LI><A href="https://git-for-windows.github.io/#contribute">bugs</A></LI>
+  <LI><A href="mailto:git@vger.kernel.org">questions</A></LI></UL></DIV>
+<DIV class="content">
+<H1>Git for Windows v2.16.1 Release Notes</H1>
+<P>Latest update: January 22nd 2018</P>
+<H2>Introduction</H2>
+<P>These release notes describe issues specific to the Git for Windows release. 
+The release notes covering the history of the core git commands can be found <A 
+href="https://github.com/git/git/tree/master/Documentation/RelNotes">in the Git 
+project</A>.</P>
+<P>See <A href="http://git-scm.com/">http://git-scm.com/</A> for further details 
+about Git including ports to other operating systems. Git for Windows is hosted 
+at <A 
+href="https://git-for-windows.github.io/">https://git-for-windows.github.io/</A>.</P>
+<H1>Known issues</H1>
+<UL>
+  <LI>Special permissions (and Windows Vista or later) are required when cloning 
+  repositories with symbolic links, therefore support for symbolic links is 
+  disabled by default. Use <CODE>git clone -c core.symlinks=true 
+  &lt;URL&gt;</CODE> to enable it, see details <A href="https://github.com/git-for-windows/git/wiki/Symbolic-Links">here</A>.</LI>
+  <LI>If configured to use Plink, you will have to connect with <A href="http://www.chiark.greenend.org.uk/~sgtatham/putty/">putty</A> 
+  first and accept the host key.</LI>
+  <LI>Some console programs, most notably non-MSYS2 Python, PHP, Node and 
+  OpenSSL, interact correctly with MinTTY only when called through 
+  <CODE>winpty</CODE> (e.g. the Python console needs to be started as 
+  <CODE>winpty python</CODE> instead of just <CODE>python</CODE>).</LI>
+  <LI><A href="http://curl.haxx.se/">cURL</A> uses <CODE>$HOME/_netrc</CODE> 
+  instead of <CODE>$HOME/.netrc</CODE>.</LI>
+  <LI>
+  <P>If you specify command-line options starting with a slash, POSIX-to-Windows 
+  path conversion will kick in converting e.g. "<CODE>/usr/bin/bash.exe</CODE>" 
+  to "<CODE>C:\Program Files\Git\usr\bin\bash.exe</CODE>". When that is not 
+  desired -- e.g. "<CODE>--upload-pack=/opt/git/bin/git-upload-pack</CODE>" or 
+  "<CODE>-L/regex/</CODE>" -- you need to set the environment variable 
+  <CODE>MSYS_NO_PATHCONV</CODE> temporarily, like so:</P>
+  <BLOCKQUOTE>
+    <P><CODE>MSYS_NO_PATHCONV=1 git blame -L/pathconv/ 
+    msys2_path_conv.cc</CODE></P></BLOCKQUOTE>
+  <P>Alternatively, you can double the first slash to avoid POSIX-to-Windows 
+  path conversion, e.g. "<CODE>//usr/bin/bash.exe</CODE>".</P></LI>
+  <LI>Windows drives are normally recognised within the POSIX path as 
+  <CODE>/c/path/to/dir/</CODE> where <CODE>/c/</CODE> (or appropriate drive 
+  letter) is equivalent to the <CODE>C:\</CODE> Windows prefix to the 
+  <CODE>\path\to\dir</CODE>. If this is not recoginsed, revert to the 
+  <CODE>C:\path\to\dir</CODE> Windows style.</LI>
+  <LI>Git for Windows will not allow commits containing DOS-style truncated 
+  8.3-format filenames ending with a tilde and digit, such as 
+  <CODE>mydocu~1.txt</CODE>. A workaround is to call <CODE>git config 
+  core.protectNTFS false</CODE>, which is not advised. Instead, add a rule to 
+  .gitignore to ignore the file(s), or rename the file(s).</LI>
+  <LI>Many Windows programs (including the Windows Explorer) have problems with 
+  directory trees nested so deeply that the absolute path is longer than 260 
+  characters. Therefore, Git for Windows refuses to check out such files by 
+  default. You can overrule this default by setting <CODE>core.longPaths</CODE>, 
+  e.g. <CODE>git clone -c core.longPaths=true ...</CODE>.</LI>
+  <LI>Some commands are not yet supported on Windows and excluded from the 
+  installation.</LI>
+  <LI>As Git for Windows is shipped without Python support, all Git commands 
+  requiring Python are not yet supported; e.g. <CODE>git p4</CODE>.</LI>
+  <LI>The Quick Launch icon will only be installed for the user running setup 
+  (typically the Administrator). This is a technical restriction and will not 
+  change.</LI></UL>
+<P>Should you encounter other problems, please search <A href="https://github.com/git-for-windows/git/issues">the 
+bug tracker</A> and <A href="http://groups.google.com/group/git-for-windows">the 
+mailing list</A>, chances are that the problem was reported already. If it has 
+not been reported, please follow <A href="https://github.com/git-for-windows/git/wiki/Issue-reporting-guidelines">our 
+bug reporting guidelines</A> and <A href="https://github.com/git-for-windows/git/issues/new">report 
+the bug</A>.</P>
+<H2>Licenses</H2>
+<P>Git is licensed under the GNU General Public License version 2.</P>
+<P>Git for Windows also contains Embedded CAcert Root Certificates. For more 
+information please go to <A href="https://www.cacert.org/policy/RootDistributionLicense.php">https://www.cacert.org/policy/RootDistributionLicense.php</A>.</P>
+<P>This package contains software from a number of other projects including 
+Bash, zlib, curl, tcl/tk, perl, MSYS2 and a number of libraries and utilities 
+from the GNU project, licensed under the GNU General Public License. Likewise, 
+it contains Perl which is dual licensed under the GNU General Public License and 
+the Artistic License.</P>
+<H2>Changes since Git for Windows v2.16.0(2) (January 18th 2018)</H2>
+<P>This is a hotfix release, based on upstream Git's hotfix to address a 
+possible segmentation fault associated with case-insensitive file systems.</P>
+<P>Note: another hotfix might be coming the day after tomorrow, as cURL 
+announced a new version addressing security advisories that <EM>might</EM> 
+affect how Git talks via HTTP/HTTPS, too.</P>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with <A href="https://github.com/git/git/blob/v2.16.1/Documentation/RelNotes/2.16.1.txt">Git 
+  v2.16.1</A>.</LI></UL>
+<H3>Bug Fixes</H3>
+<UL>
+  <LI>A set of regressions introduced by patches intended to speed up 
+  <CODE>reset</CODE> and <CODE>checkout</CODE> was fixed (issues <A href="https://github.com/git-for-windows/git/issues/1437">#1437</A>, 
+  <A href="https://github.com/git-for-windows/git/issues/1438">#1438</A>, <A 
+  href="https://github.com/git-for-windows/git/issues/1440">#1440</A> and <A 
+  href="https://github.com/git-for-windows/git/issues/1442">#1442</A>.</LI></UL>
+<H2>Changes since Git for Windows v2.15.1(2) (November 30th 2017)</H2>
+<P>Git for Windows now has a new homepage: <A 
+href="https://gitforwindows.org/">https://gitforwindows.org/</A> (it is still 
+graciously hosted by GitHub, but now much quicker to type).</P>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with <A href="https://github.com/Microsoft/Git-Credential-Manager-for-Windows/releases/tag/v1.14.0">Git 
+  Credential Manager v1.14.0</A>.</LI>
+  <LI>The Git for Windows installer <A href="https://github.com/git-for-windows/git/issues/1356">now 
+  offers to configure Visual Studio Code as default editor for Git</A>.</LI>
+  <LI>Comes with <A 
+  href="https://www.openssl.org/news/openssl-1.0.2-notes.html">OpenSSL 
+  v1.0.2n</A>.</LI>
+  <LI><CODE>git checkout</CODE> <A href="https://github.com/git-for-windows/git/pull/1419">is 
+  now a lot faster when checking out a <EM>lot</EM> of files</A>.</LI>
+  <LI>The <CODE>core.excludesfile</CODE> <A href="https://github.com/git-for-windows/git/issues/1392">can 
+  now reference a symbolic link</A>.</LI>
+  <LI>Comes with <A href="https://github.com/git-for-windows/msys2-runtime/commit/c967bd8e37af7fa86f8ed1ded2625071612b808a">patch 
+  level 7</A> of the MSYS2 runtime (Git for Windows flavor) based on <A href="https://cygwin.com/ml/cygwin-announce/2017-09/msg00056.html">Cygwin 
+  2.9.0</A>.</LI>
+  <LI>With lots of files, <CODE>git reset --hard</CODE> <A href="https://github.com/git-for-windows/git/pull/1427">is 
+  now a lot faster</A> when the FSCache feature is in effect.</LI></UL>
+<H3>Bug Fixes</H3>
+<UL>
+  <LI>When cloning into an existing (empty) directory fails, <A href="https://github.com/git-for-windows/git/pull/1421">Git 
+  no longer removes said directory</A>.</LI>
+  <LI>Interrupting processes (and their children) using Control+C <A href="https://github.com/git-for-windows/msys2-runtime/pull/16">is 
+  now a lot more robust</A>.</LI></UL>
+<H2>Changes since Git for Windows v2.15.1 (November 29th 2017)</H2>
+<H3>Bug Fixes</H3>
+<UL>
+  <LI>The bug introduced into Git for Windows v2.15.1 where <CODE>vim</CODE> 
+  would show an ugly warning upon startup <A href="https://github.com/git-for-windows/git/issues/1382">was 
+  fixed</A>.</LI></UL>
+<H2>Changes since Git for Windows v2.15.0 (October 30th 2017)</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with <A href="https://github.com/git/git/blob/v2.15.1/Documentation/RelNotes/2.15.1.txt">Git 
+  v2.15.1</A>.</LI>
+  <LI>Operations in massively-sparse worktrees <A href="https://github.com/git-for-windows/git/pull/1344">are 
+  now much faster if <CODE>core.fscache = true</CODE></A>.</LI>
+  <LI>It is <A 
+  href="https://github.com/git-for-windows/build-extra/pull/161">now possible to 
+  configure <CODE>nano</CODE></A> or <A href="https://github.com/git-for-windows/git/issues/291">Notepad++</A> 
+  as Git's default editor <A href="https://www.xkcd.com/378/">instead of 
+  <CODE>vim</CODE></A>.</LI>
+  <LI>Comes with <A href="https://www.openssl.org/news/cl102.txt">OpenSSL 
+  v1.0.2m</A>.</LI>
+  <LI>Git for Windows' updater <A href="https://github.com/git-for-windows/build-extra/commit/master">now 
+  uses non-intrusive toast notifications on Windows 8, 8.1 and 10</A>.</LI>
+  <LI>Running <CODE>git fetch</CODE> in a repository with lots of refs <A href="https://github.com/git-for-windows/git/pull/1379">is 
+  now considerably faster</A>.</LI>
+  <LI>Comes with <A href="https://curl.haxx.se/changes.html#7_57_0">cURL 
+  v7.57.0</A>.</LI></UL>
+<H3>Bug Fixes</H3>
+<UL>
+  <LI>The experimental <CODE>--show-ignored-directory</CODE> option of <CODE>git 
+  status</CODE> which was removed in Git for Windows v2.15.0 without warning <A 
+  href="https://github.com/git-for-windows/git/pull/1354">has been reintroduced 
+  as a deprecated option</A>.</LI>
+  <LI>The <CODE>git update</CODE> command (to auto-update Git for Windows) will 
+  <A href="https://github.com/git-for-windows/git/issues/1363">now also work 
+  behind proxies</A>.</LI></UL>
+<H2>Changes since Git for Windows v2.14.3 (October 23rd 2017)</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with <A href="https://github.com/git/git/blob/v2.15.0/Documentation/RelNotes/2.15.0.txt">Git 
+  v2.15.0</A>.</LI></UL>
+<H3>Bug Fixes</H3>
+<UL>
+  <LI>The auto-updater tried to run at a precise time, and did not run when the 
+  computer was switched off at that time. <A href="https://github.com/git-for-windows/build-extra/commit/459b6e85c">Now 
+  it runs as soon after the scheduled time as possible</A>.</LI>
+  <LI>The auto-updater <A href="https://github.com/git-for-windows/build-extra/commit/1418ee7e8">no 
+  longer suggests to downgrade from Release Candidates</A>.</LI>
+  <LI>When the auto-updater asked the user whether they want to upgrade to a 
+  certain version, and the user declined, <A href="https://github.com/git-for-windows/build-extra/commit/c0f7634af">the 
+  auto-updater will not bother the user about said version again</A>.</LI>
+  <LI>The installer, when run with /SKIPIFINUSE=1, <A href="https://github.com/git-for-windows/build-extra/commit/db3521c140154b3923e304e4271176958da1f048">now 
+  detects whether <EM>any</EM> executable in Git for Windows' installation is 
+  run</A></LI>
+  <LI>Git for Windows <A href="https://github.com/git-for-windows/build-extra/commit/c86d164f2c9d5c79cd95f1fda881f9e80ca9dc3a">no 
+  longer includes (non-working) <CODE>xmlcatalog.exe</CODE> and 
+  <CODE>xmllint.exe</CODE></A>.</LI></UL>
+<H2>Changes since Git for Windows v2.14.2(3) (October 12th 2017)</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with <A href="https://github.com/git/git/blob/v2.14.3/Documentation/RelNotes/2.14.3.txt">Git 
+  v2.14.3</A>.</LI>
+  <LI>Git for Windows <A href="https://github.com/git-for-windows/build-extra/pull/148">now 
+  ships with a diff helper for OpenOffice documents</A>.</LI>
+  <LI>Comes with <A href="https://github.com/git-lfs/git-lfs/releases/tag/v2.3.4">Git 
+  LFS v2.3.4</A>.</LI>
+  <LI>Comes with <A href="https://curl.haxx.se/changes.html#7_56_1">cURL 
+  v7.56.1</A>.</LI></UL>
+<H3>Bug Fixes</H3>
+<UL>
+  <LI>Git for Windows <A href="https://github.com/git-for-windows/git/issues/1320">now 
+  handles worktrees at the top-level of a UNC share correctly</A>.</LI></UL>
+<H2>Changes since Git for Windows v2.14.2(2) (October 5th 2017)</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with <A href="https://github.com/git-lfs/git-lfs/releases/tag/v2.3.3">Git 
+  LFS v2.3.3</A>.</LI></UL>
+<H3>Bug Fixes</H3>
+<UL>
+  <LI><A href="https://github.com/git-for-windows/build-extra/commit/b46fba6f44b3680210b19ef5fc9ce22ca1dcda55">Re-enabled 
+  some SSHv1 ciphers</A> since some sites (e.g. Visual Studio Team Services) 
+  rely on them for the time being.</LI></UL>
+<H2>Changes since Git for Windows v2.14.2 (September 26th 2017)</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with <A href="https://github.com/git-for-windows/busybox-w32/commit/b4c390e17">BusyBox 
+  v1.28.0pre.16467.b4c390e17</A>.</LI>
+  <LI>Comes with <A href="https://github.com/git-lfs/git-lfs/releases/tag/v2.3.2">Git 
+  LFS v2.3.2</A>.</LI>
+  <LI>Comes with <A href="https://curl.haxx.se/changes.html#7_56_0">cURL 
+  v7.56.0</A>.</LI>
+  <LI>Comes with <A href="https://www.openssh.com/txt/release-7.6">OpenSSH 
+  v7.6p1</A>.</LI>
+  <LI>Comes with <A href="https://github.com/git-for-windows/MSYS2-packages/commit/f2caef90d2e6ba13dc16e38152003958f4db710b">patch 
+  level 4</A> of the MSYS2 runtime (Git for Windows flavor) based on <A href="https://cygwin.com/ml/cygwin-announce/2017-09/msg00056.html">Cygwin 
+  2.9.0</A>.</LI></UL>
+<H3>Bug Fixes</H3>
+<UL>
+  <LI>A <A href="https://github.com/git-for-windows/git/issues/1312">bug</A> 
+  which caused the console window to be closed when executing certain Bash 
+  scripts <A href="https://github.com/git-for-windows/MSYS2-packages/commit/e9d0a2be2720007c2a734866ebbb4c15e503003c">was 
+  fixed</A>.</LI>
+  <LI>A crash when calling <CODE>kill &lt;pid&gt;</CODE> for a non-existing 
+  process <A href="https://github.com/git-for-windows/git/issues/1316">was 
+  fixed</A>.</LI></UL>
+<H2>Changes since Git for Windows v2.14.1 (August 10th 2017)</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with <A href="https://github.com/git/git/blob/v2.14.2/Documentation/RelNotes/2.14.2.txt">Git 
+  v2.14.2</A>.</LI>
+  <LI>Comes with <A href="https://curl.haxx.se/changes.html#7_55_1">cURL 
+  v7.55.1</A>.</LI>
+  <LI>The XP-compatibility layer emulating pthreads (which is <A href="https://git-for-windows.github.io/requirements.html">no 
+  longer needed</A>) <A 
+  href="https://github.com/git-for-windows/git/pull/1214">was dropped in favor 
+  of modern Windows threading APIs</A>; This should make threaded operations 
+  slightly faster and more robust.</LI>
+  <LI>On Windows, UNC paths can <A href="https://github.com/git-for-windows/git/commit/a352941117bc8d00dfddd7a594adf095d084d844">now 
+  be accessed via <CODE>file://host/share/repo.git</CODE>-style paths</A>.</LI>
+  <LI>Comes with <A href="https://github.com/git-for-windows/build-extra/pull/151">a 
+  new custom Git command <CODE>git update</CODE></A> to help keeping Git 
+  up-to-date on your machine.</LI>
+  <LI>The Git installer now offers <A href="https://github.com/git-for-windows/build-extra/pull/155">an 
+  option to keep Git up-to-date</A> by calling <CODE>git update</CODE> 
+  regularly.</LI>
+  <LI>Comes with <A href="https://github.com/git-for-windows/busybox-w32/commit/2739df917">BusyBox 
+  v1.28.0pre.16353.2739df917</A>.</LI>
+  <LI>As is common elsewhere, Ctrl+Left and Ctrl+Right <A href="https://github.com/git-for-windows/build-extra/pull/156">now 
+  move word-wise in Git Bash</A>, too.</LI>
+  <LI>Comes with <A href="https://github.com/git-for-windows/msys2-runtime/commit/874e2c8efeed9084cd065cf9ea5c0951f5afca02">patch 
+  level 2</A> of the MSYS2 runtime (Git for Windows flavor) based on <A href="https://cygwin.com/ml/cygwin-announce/2017-09/msg00056.html">Cygwin 
+  2.9.0</A>.</LI>
+  <LI>Comes with <A href="https://github.com/git-lfs/git-lfs/releases/tag/v2.3.0">Git 
+  LFS v2.3.0</A>.</LI>
+  <LI>The <CODE>vs/master</CODE> branch <A href="https://github.com/git-for-windows/git/pull/1302">can 
+  now be built in Visual Studio 2017</A>, too</LI>
+  <LI>As <A 
+  href="https://github.com/git-for-windows/git/issues/1294">requested</A> by the 
+  same user who implemented <A href="https://github.com/git-for-windows/build-extra/pull/157">the 
+  change</A>, Git for Windows now comes with <A href="https://github.com/jonas/tig"><CODE>tig</CODE></A>, 
+  a text-mode interface for Git.</LI></UL>
+<H3>Bug Fixes</H3>
+<UL>
+  <LI>It is <A href="https://github.com/git-for-windows/git/commit/70c1ff8b0ef66321d630fe49d61ee1a9b6be6a4c">now 
+  possible to override <CODE>http.sslBackend</CODE> on the 
+command-line</A>.</LI>
+  <LI>The installer <A href="https://github.com/git-for-windows/build-extra/commit/5e438f707027eb99da1b1b381672e6d7dbc063a8">now 
+  detects correctly whether symbolic links can be created by regular 
+  users</A>.</LI>
+  <LI>Git Bash <A 
+  href="https://github.com/git-for-windows/build-extra/pull/152">now renders 
+  non-ASCII directories nicely</A>.</LI>
+  <LI>A regression that caused the fetch operation with lots of refs to be a lot 
+  slower than before <A href="https://github.com/git-for-windows/git/issues/1233">was 
+  fixed</A>.</LI>
+  <LI>The <CODE>git-gui.exe</CODE> and <CODE>gitk.exe</CODE> wrappers intended 
+  to be used in Git CMD <A href="https://github.com/git-for-windows/git/issues/1284">now 
+  handle command-line parameters correctly</A>.</LI>
+  <LI>The <CODE>core.longPaths</CODE> setting <A href="https://github.com/git-for-windows/git/issues/1218">is 
+  now heeded when packing refs</A>, and other previously forgotten Git 
+  commands.</LI>
+  <LI>Pressing Ctrl+Z in Git Bash <A href="https://github.com/git-for-windows/git/issues/1083">no 
+  longer kills Win32 processes (e.g. <CODE>git.exe</CODE>) anymore</A>, because 
+  POSIX job control is only available with MSYS2 processes.</LI>
+  <LI>Git for Windows <A href="https://github.com/git-for-windows/git/commit/b5915c6ae881518927b9fa0b3c4df4d3edd37f23">now 
+  sets <CODE>core.fsyncObjectFiles = true</CODE> by default</A> which makes it a 
+  lot more fault-tolerant, say, when power is lost.</LI>
+  <LI>A bug has been fixed where Git for Windows <A href="https://github.com/git-for-windows/git/issues/1299">could 
+  run into an infinite loop trying to rename a file</A>.</LI>
+  <LI>Before installing Git for Windows, we already verified that no Git Bash 
+  instance is active (which would prevent files from being overwritten). We <A 
+  href="https://github.com/git-for-windows/build-extra/commit/1b93b50cf08c6cbd3200a66603d28fbd269c2f6a">now 
+  also verify that no <CODE>git.exe</CODE> processes are active, 
+either</A>.</LI></UL>
+<H2>Changes since Git for Windows v2.14.0(2) (August 7th 2017)</H2>
+<P>Note: there have been MinGit-only releases v2.12.2(3) and v2.13.1(3) with 
+backports of the important bug fix in v2.14.1 as well as the experimental 
+<CODE>--show-ignored-directory</CODE> option of <CODE>git status</CODE>.</P>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with <A href="https://github.com/git/git/blob/v2.14.1/Documentation/RelNotes/2.14.1.txt">Git 
+  v2.14.1</A>.</LI>
+  <LI>Comes with <A href="https://curl.haxx.se/changes.html#7_55_0">cURL 
+  v7.55.0</A>.</LI>
+  <LI>The <EM>Git Bash Here</EM> context menu item <A href="https://github.com/git-for-windows/build-extra/pull/150">is 
+  now also available</A> in the special <A href="https://msdn.microsoft.com/en-us/library/windows/desktop/dd758096.aspx">Libraries 
+  folders</A>.</LI></UL>
+<H2>Changes since Git for Windows v2.14.0 (August 6th 2017)</H2>
+<H3>Bug Fixes</H3>
+<UL>
+  <LI>A regression introduced in v2.14.0 that prevented fetching via SSH <A 
+  href="https://github.com/git-for-windows/git/issues/1258">was 
+fixed</A>.</LI></UL>
+<H2>Changes since Git for Windows v2.13.3 (July 13th 2017)</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with <A href="https://github.com/git/git/blob/v2.14.0/Documentation/RelNotes/2.14.0.txt">Git 
+  v2.14.0</A>.</LI>
+  <LI>Comes with <A href="https://github.com/git-for-windows/busybox-w32/commit/9480dca7c">BusyBox 
+  v1.28.0pre.15857.9480dca7c</A>.</LI>
+  <LI>Comes with <A href="https://github.com/Microsoft/Git-Credential-Manager-for-Windows/releases/tag/v1.12.0">Git 
+  Credential Manager v1.12.0</A>.</LI>
+  <LI>It is now possible to switch between Secure Channel and OpenSSL for Git's 
+  HTTPS transport by <A href="https://github.com/git-for-windows/git/commit/d81216ee4dd46ae59a388044d1266d6fa9030c19">setting 
+  the <CODE>http.sslBackend</CODE> config variable to "openssl" or 
+  "schannel"</A>; This <A href="https://github.com/git-for-windows/build-extra/commit/7c5a23970126e3cff1e1a7a763216b2a67005593">is 
+  now also the method used by the installer</A> (rather than copying 
+  <CODE>libcurl-4.dll</CODE> files around).</LI>
+  <LI>The experimental option <A href="https://github.com/git-for-windows/git/pull/1243"><CODE>--show-ignored-directory</CODE> 
+  was added to <CODE>git status</CODE></A> to show only the name of ignored 
+  directories when the option <CODE>--untracked=all</CODE> is used.</LI>
+  <LI>Git for Windows releases now also include an experimental <A href="https://github.com/git-for-windows/git/wiki/MinGit#experimental-busybox-based-mingit">BusyBox-based 
+  MinGit</A>.</LI></UL>
+<H3>Bug Fixes</H3>
+<UL>
+  <LI>Repository-local aliases <A href="https://github.com/git-for-windows/git/commit/6ba04141d88">are 
+  now resolved again in worktrees</A>.</LI>
+  <LI>CamelCased aliases were broken in v2.13.3; This <A href="https://github.com/git-for-windows/git/commit/af0c2223da0">has 
+  been fixed again</A>.</LI>
+  <LI>The 32-bit Git binaries are now built against the same dependencies that 
+  are shipped with Git for Windows.</LI></UL>
+<H2>Changes since Git for Windows v2.13.2 (June 26th 2017)</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with <A href="https://github.com/git/git/blob/v2.13.3/Documentation/RelNotes/2.13.3.txt">Git 
+  v2.13.3</A>.</LI>
+  <LI>Comes with <A href="https://github.com/git-lfs/git-lfs/releases/tag/v2.2.1">Git 
+  LFS v2.2.1</A>.</LI>
+  <LI>Comes with MSYS2 runtime (Git for Windows flavor) based on <A href="https://cygwin.com/ml/cygwin-announce/2017-07/msg00044.html">Cygwin 
+  2.8.2</A>.</LI></UL>
+<H3>Bug Fixes</H3>
+<UL>
+  <LI>Git Bash <A href="https://github.com/git-for-windows/git/issues/1226">no 
+  longer tries to use the <CODE>getent</CODE> tool</A> which was never shipped 
+  with Git for Windows.</LI></UL>
+<H2>Changes since Git for Windows v2.13.1(2) (June 15th 2017)</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with <A href="https://github.com/git/git/blob/v2.13.2/Documentation/RelNotes/2.13.2.txt">Git 
+  v2.13.2</A>.</LI>
+  <LI>Comes with <A href="https://github.com/Microsoft/Git-Credential-Manager-for-Windows/releases/tag/v1.10.1">Git 
+  Credential Manager v1.10.1</A>.</LI>
+  <LI>The Git Bash prompt <A href="https://github.com/git-for-windows/build-extra/pull/145">can 
+  now be overridden by creating the file 
+  <CODE>.config\git\git-prompt.sh</CODE></A>.</LI>
+  <LI>Comes with <A href="https://curl.haxx.se/changes.html#7_54_1">cURL 
+  v7.54.1</A>.</LI></UL>
+<H2>Changes since Git for Windows v2.13.1 (June 13th 2017)</H2>
+<H3>Bug Fixes</H3>
+<UL>
+  <LI><CODE>git commit</CODE> and <CODE>git status</CODE> <A href="https://github.com/git-for-windows/git/issues/1202">no 
+  longer randomly throw segmentation faults</A>.</LI></UL>
+<H2>Changes since Git for Windows v2.13.0 (May 10th 2017)</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with <A href="https://github.com/git/git/blob/v2.13.1/Documentation/RelNotes/2.13.1.txt">Git 
+  v2.13.1</A>.</LI>
+  <LI>Comes with <A href="https://github.com/Microsoft/Git-Credential-Manager-for-Windows/releases/tag/v1.10.0">Git 
+  Credential Manager v1.10.0</A>.</LI>
+  <LI>Comes with <A 
+  href="https://www.openssh.com/releasenotes.html#7.5p1">OpenSSH 7.5p1</A>.</LI>
+  <LI>Comes with <A href="https://github.com/petervanderdoes/gitflow-avh/releases/tag/1.11.0">Git 
+  Flow v1.11.0</A>.</LI>
+  <LI>Comes with <A href="https://github.com/git-lfs/git-lfs/releases/tag/v2.1.1">Git 
+  LFS v2.1.1</A>.</LI>
+  <LI>Git <A href="https://github.com/git-for-windows/git/pull/1188">now uses 
+  the flag introduced with Windows 10 Creators Update to create symbolic links 
+  without requiring elevated privileges</A> in Developer Mode.</LI></UL>
+<H3>Bug Fixes</H3>
+<UL>
+  <LI>The documentation of Git for Windows' several config files <A href="https://github.com/git-for-windows/git/pull/1165">was 
+  improved</A>.</LI>
+  <LI>When interrupting Git processes in Git Bash by pressing Ctrl+C, <A href="https://github.com/git-for-windows/msys2-runtime/pull/15">Git 
+  now removes <CODE>.lock</CODE> files as designed</A> (<A href="https://github.com/git-for-windows/git/pull/1170">accompanying 
+  Git PR</A>; this should also fix <A href="https://github.com/git-for-windows/git/issues/338">issue 
+  #338</A>).</LI>
+  <LI><CODE>git status -uno</CODE> <A href="https://github.com/git-for-windows/git/issues/1179">now 
+  treats submodules in ignored directories correctly</A>.</LI>
+  <LI>The fscache feature <A href="https://github.com/git-for-windows/git/commit/bda7f0728ac55e55d79ed0786c1b5ce2ef7e6117">no 
+  longer slows down <CODE>git commit -m &lt;message&gt;</CODE> in large 
+  worktrees</A>.</LI>
+  <LI>Executing <CODE>git.exe</CODE> in Git Bash when the current working 
+  directory is a UNC path <A href="https://github.com/git-for-windows/git/issues/1181">now 
+  works as expected</A>.</LI>
+  <LI>Staging/unstaging multiple files in Git GUI via Ctrl+C <A href="https://github.com/git-for-windows/git/issues/1012">now 
+  works</A>.</LI>
+  <LI>When hitting Ctrl+T in Git GUI to stage files, but the file list is empty, 
+  Git GUI <A href="https://github.com/git-for-windows/git/issues/1075">no longer 
+  shows an exception window</A>.</LI></UL>
+<H2>Changes since Git for Windows v2.12.2(2) (April 5th 2017)</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with <A href="https://github.com/git/git/blob/v2.13.0/Documentation/RelNotes/2.13.0.txt">Git 
+  v2.13.0</A>.</LI>
+  <LI>Comes with <A href="https://curl.haxx.se/changes.html">cURL 
+  v7.54.0</A>.</LI>
+  <LI>Comes with <A href="https://github.com/git-lfs/git-lfs/releases/tag/v2.1.0">Git 
+  LFS v2.1.0</A>.</LI></UL>
+<H3>Bug Fixes</H3>
+<UL>
+  <LI>As per Git LFS' convention, <A href="https://github.com/git-for-windows/build-extra/pull/141">it 
+  is installed into the <CODE>bin/</CODE> directory again</A>.</LI>
+  <LI>Calling <CODE>git add</CODE> with an absolute path using different 
+  upper/lower case than recorded on disk <A href="https://github.com/git-for-windows/git/issues/735">will 
+  now work as expected</A> instead of claiming that the paths are outside the 
+  repository.</LI>
+  <LI>Git for Windows <A href="https://github.com/git-for-windows/git/issues/1150">no 
+  longer tries to determine the default printer</A>.</LI>
+  <LI>When writing the Git index file, Git for Windows <A href="https://github.com/git-for-windows/git/issues/1149">no 
+  longer has the wrong idea about the file's timestamp</A>.</LI>
+  <LI>On Windows, absolute paths can start with a backslash (implicitly 
+  referring to the same drive as the current directory), and now <CODE>git 
+  clone</CODE> <A href="https://github.com/git-for-windows/git/commit/fad23e90efc">can 
+  use those paths, too</A>.</LI></UL>
+<H2>Changes since Git for Windows v2.12.2 (March 27th 2017)</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Portable Git is now using <A href="https://github.com/git-for-windows/7-Zip">a 
+  custom-built SFX that is based directly on 7-Zip's SFX</A>.</LI>
+  <LI>Git LFS was upgraded to <A href="https://github.com/git-lfs/git-lfs/releases/tag/v2.0.2">v2.0.2</A>.</LI>
+  <LI>Updated the MSYS2 runtime to <A href="https://cygwin.com/ml/cygwin-announce/2017-04/msg00001.html">Cygwin 
+  2.8.0</A>.</LI>
+  <LI>Git LFS <A href="https://github.com/git-for-windows/build-extra/commit/16975a72fd328130ae531ce349e4a77d9d2b8fa4">can 
+  now be disabled in the first installer page</A> (users can still enable it 
+  manually, as before, of course).</LI>
+  <LI>Comes with <A href="https://github.com/Microsoft/Git-Credential-Manager-for-Windows/">Git 
+  Credential Manager</A> v1.9.1.</LI></UL>
+<H3>Bug Fixes</H3>
+<UL>
+  <LI>A potential crash in <CODE>git status</CODE> with lots of files <A href="https://github.com/git-for-windows/git/issues/1111">was 
+  fixed</A>.</LI>
+  <LI>Git LFS <A href="https://github.com/git-for-windows/build-extra/commit/5f7d44728c089694f4ef1cc3da03f15e35cd5ecc">now 
+  gets installed into the correct location</A>.</LI>
+  <LI>Git LFS <A href="https://github.com/git-for-windows/build-extra/commit/115b9f5b88ff60af19628262833b42cd7b6cd852">is 
+  now configured correctly out of the box</A> (unless disabled).</LI>
+  <LI>The <CODE>http.sslCAInfo</CODE> config setting <A href="https://github.com/git-for-windows/git/issues/531">is 
+  now private to the Git for Windows installation that owns the file</A>.</LI>
+  <LI><CODE>git difftool -d</CODE> <A href="https://github.com/git-for-windows/git/issues/1124">no 
+  longer crashes randomly</A>.</LI></UL>
+<H2>Changes since Git for Windows v2.12.1 (March 21st 2017)</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with <A href="https://github.com/git/git/blob/v2.12.2/Documentation/RelNotes/2.12.2.txt">Git 
+  v2.12.2</A>.</LI>
+  <LI>An earlier iteration of the changes speeding up the case-insensitive cache 
+  of file names was replaced by <A href="https://github.com/git-for-windows/git/commit/212247dd6345c820deeae61fcdf2f10cea10525a">a 
+  new iteration</A>.</LI></UL>
+<H2>Changes since Git for Windows v2.12.0 (February 25th 2017)</H2>
+<P>A <A href="https://github.com/git-for-windows/git/releases/tag/v2.12.0.windows.2">MinGit-only 
+v2.12.0(2)</A> was released in the meantime.</P>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with <A href="https://github.com/git/git/blob/v2.12.1/Documentation/RelNotes/2.12.1.txt">Git 
+  v2.12.1</A>.</LI>
+  <LI>In addition to the GitForWindows NuGet package, we now also publish <A 
+  href="https://www.nuget.org/packages/Git-Windows-Minimal/">MinGit as a NuGet 
+  package</A>.</LI>
+  <LI>Git for Windows now bundles <A href="https://git-lfs.github.com/">Git 
+  LFS</A>.</LI>
+  <LI>Comes with Git Credential Manager <A href="https://github.com/Microsoft/Git-Credential-Manager-for-Windows/releases/tag/v1.9.0">v1.9.0</A>.</LI>
+  <LI>Git can now be configured to use <A href="https://github.com/git-for-windows/git/issues/301">Secure 
+  Channel</A> to use the Windows Credential Store when fetching/pushing via 
+  HTTPS.</LI>
+  <LI><A 
+  href="https://github.com/git-for-windows/MSYS2-packages/pull/20">Updates</A> 
+  Git-Flow to <A href="https://github.com/petervanderdoes/gitflow-avh/blob/1.10.2/Changes.mdown#1102">v1.10.2</A> 
+  (addressing <A 
+  href="https://github.com/git-for-windows/git/issues/1092">#1092</A>).</LI>
+  <LI>Git for Windows' fork of the MSYS2 runtime was <A href="https://github.com/git-for-windows/msys2-runtime/compare/5f79e89da8...a55abf375d">rebased</A> 
+  to a preview of the Cygwin runtime version 2.8.0 (due soon) to fix <A href="https://cygwin.com/ml/cygwin/2017-03/msg00113.html"><CODE>fork: 
+  child &lt;n&gt; - forked process &lt;pid&gt; died unexpectedly, retry 0, exit 
+  code 0xC0000142, errno 11</CODE> problems</A>.</LI></UL>
+<H3>Bug Fixes</H3>
+<UL>
+  <LI>MinGit <A href="https://github.com/git-for-windows/git/issues/1086">no 
+  longer gets distracted</A> by incompatible <CODE>libeay32.dll</CODE> versions 
+  in C:\Windows\system32.</LI>
+  <LI>Long paths between 248 and 260 characters were not handled correctly since 
+  Git for Windows v2.11.1, which <A href="https://github.com/git-for-windows/git/issues/1084">is 
+  now fixed</A>.</LI>
+  <LI>The <CODE>awk.exe</CODE> shipped with MinGit <A href="https://github.com/git-for-windows/build-extra/commit/437b52cae9d73772f9582efbd45b63335c7a3fb8">now 
+  ships with a previously missing a dependency</A> (this fixes <CODE>git 
+  mergetool</CODE>).</LI>
+  <LI>Git for Windows does not ship with localized messages to save on 
+  bandwidth, and the gettext initialization <A href="https://github.com/git-for-windows/git/commit/0a416e8f3ef5314927f687f8b2e90f68bc537d80">can 
+  be skipped when the directory with said messages is missing</A>, saving us up 
+  to 150ms on every <CODE>git.exe</CODE> startup.</LI>
+  <LI>A possible crash when running <CODE>git log --pickaxe-regex 
+  -S&lt;regex&gt;</CODE> <A href="https://github.com/git-for-windows/git/commit/2c6cf4e358dd1395091e1d7f9544028e6df674a7">was 
+  fixed</A>.</LI>
+  <LI>The <CODE>ORIGINAL_PATH</CODE> variable, recently introduced by the MSYS2 
+  project to allow for special "PATH modes", <A href="https://github.com/git-for-windows/msys2-runtime/commit/476605ced959f217b3820157b8101b4529fa6a0d">is 
+  now handled in the same manner as the <CODE>PATH</CODE> variable</A> when 
+  jumping the Windows&lt;-&gt;MSYS2 boundary, fixing issues when 
+  <CODE>ORIGINAL_PATH</CODE> is converted to Windows format and back 
+again.</LI></UL>
+<H2>Changes since Git for Windows v2.11.1 (February 3rd 2017)</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with <A href="https://github.com/git/git/blob/v2.12.0/Documentation/RelNotes/2.12.0.txt">Git 
+  v2.12.0</A>.</LI>
+  <LI>The builtin difftool is no longer opt-in, as it graduated to be officially 
+  adopted by the Git project.</LI>
+  <LI>Comes with v2.7.0 of the POSIX emulation layer based on the <A href="https://cygwin.com/ml/cygwin-announce/2017-02/msg00022.html">Cygwin 
+  runtime</A>.</LI>
+  <LI>Includes <A href="https://curl.haxx.se/changes.html#7_53_1">cURL 
+  7.53.1</A>.</LI>
+  <LI>The Portable Git now defaults to using the included Git Credential 
+  Manager.</LI></UL>
+<H3>Bug Fixes</H3>
+<UL>
+  <LI>The <A href="https://github.com/git-for-windows/git/commit/87ad093f001e7146e5e521914255199e49c212a7"><CODE>stderr</CODE> 
+  output is unbuffered again</A>, i.e. errors are displayed immediately (this 
+  was reported <A href="http://public-inbox.org/git/6bc02b0a-a463-1f0c-3fee-ba27dd2482e4@kdbg.org/">on 
+  the Git mailing list</A> as well as issues <A href="https://github.com/git-for-windows/git/issues/1062">#1064</A>, 
+  <A href="https://github.com/git-for-windows/git/issues/1064">#1064</A>, <A 
+  href="https://github.com/git-for-windows/git/issues/1068">#1068</A>).</LI>
+  <LI>Git <A href="https://github.com/git-for-windows/git/issues/1036">can clone 
+  again</A> from paths containing non-ASCII characters.</LI>
+  <LI>We <A href="https://github.com/git-for-windows/git/issues/1069">no longer 
+  ship two different versions of <CODE>curl.exe</CODE></A>.</LI>
+  <LI>Hitting Ctrl+T in Git GUI even after all files have been (un)staged <A 
+  href="https://github.com/git-for-windows/git/issues/1060">no longer throws an 
+  exception</A>.</LI>
+  <LI>A couple of Git GUI bugs regarding the list of recent repositories <A 
+  href="https://github.com/patthoyts/git-gui/pull/10">have been fixed</A>.</LI>
+  <LI>The <CODE>git-bash.exe</CODE> helper <A href="https://github.com/git-for-windows/git/issues/946">now 
+  waits again for the terminal to be closed before returning</A>.</LI>
+  <LI>Git for Windows <A href="https://github.com/git-for-windows/git/issues/1034">no 
+  longer attempts to send empty credentials to HTTP(S) servers that handle only 
+  Basic and/or Digest authentication</A>.</LI></UL>
+<H2>Changes since Git for Windows v2.11.0(3) (January 14th 2017)</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with <A href="https://github.com/git/git/blob/v2.11.1/Documentation/RelNotes/2.11.1.txt">Git 
+  v2.11.1</A>.</LI>
+  <LI>Performance <A href="https://github.com/git-for-windows/git/pull/994">was 
+  enhanced when using fscache in a massively sparse checkout</A>.</LI>
+  <LI>Git hooks <A href="https://github.com/git-for-windows/git/commit/1c6c2420ff6683d93a61fc790842ab712f2a926b">can 
+  now be <CODE>.exe</CODE> files</A>.</LI></UL>
+<H3>Bug Fixes</H3>
+<UL>
+  <LI>Git GUI will <A href="https://github.com/git-for-windows/git/pull/1032">no 
+  longer set <CODE>GIT_DIR</CODE> when calling Git Bash after visualizing the 
+  commit history</A>.</LI>
+  <LI>When the <CODE>PATH</CODE> contains UNC entries, Git Bash will <A href="https://github.com/git-for-windows/git/issues/1033">no 
+  longer error out with a "Bad address" error message</A>.</LI></UL>
+<H2>Changes since Git for Windows v2.11.0(2) (January 13th 2017)</H2>
+<H3>Bug Fixes</H3>
+<UL>
+  <LI><A href="https://github.com/git-for-windows/msys2-runtime/commit/cfaf466391f992525a66d91ebb8e33cadbc08438">Fixed 
+  an off-by-two bug in the POSIX emulation layer</A> that possibly affected 
+  third-party Perl scripts that load native libraries dynamically.</LI>
+  <LI>A regression in <CODE>rebase -i</CODE>, introduced into v2.11.0(2), which 
+  caused commit attribution to be mishandled after resolving conflicts, <A href="https://github.com/git-for-windows/git/commit/e11df2efb3072fe73153442589129d2eb8d9ea02">was 
+  fixed</A>.</LI></UL>
+<H2>Changes since Git for Windows v2.11.0 (December 1st 2016)</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Reading a large index <A href="https://github.com/git-for-windows/git/pull/978">has 
+  been speeded up using pthreads</A>.</LI>
+  <LI>The <CODE>checkout</CODE> operation <A href="https://github.com/git-for-windows/git/pull/988">was 
+  speeded up</A> for the common cases.</LI>
+  <LI>The <CODE>status</CODE> operation <A href="https://github.com/git-for-windows/git/pull/991">was 
+  made faster</A> in large worktrees with many changes.</LI>
+  <LI>The <CODE>diff</CODE> operation saw <A href="https://github.com/git-for-windows/git/pull/996">performance 
+  improvements</A> when working on a huge number of renamed files.</LI>
+  <LI>PuTTY's <CODE>plink.exe</CODE> <A href="https://github.com/git-for-windows/git/pull/1006">can 
+  now be used in <CODE>GIT_SSH_COMMAND</CODE> without jumping through hoops, 
+  too</A>.</LI>
+  <LI>The MSYS2 runtime was <A href="https://github.com/git-for-windows/msys2-runtime/commit/038b376b2b02ab916eabac006ac54b1d29a4be75">synchronized 
+  with Cygwin 2.6.1</A>.</LI></UL>
+<H3>Bug Fixes</H3>
+<UL>
+  <LI>Non-ASCII characters are <A href="https://github.com/git-for-windows/git/issues/981">now 
+  shown properly again</A> in Git Bash.</LI>
+  <LI>Implicit NTLM authentication <A href="https://github.com/git-for-windows/git/issues/987">works 
+  again</A> when accessing a remote repository via HTTP/HTTPS without having to 
+  specify empty user name and password.</LI>
+  <LI>Our <CODE>poll()</CODE> emulation <A href="https://github.com/git-for-windows/git/pull/1003">now 
+  uses 64-bit tick counts</A> to avoid the (very rare) wraparound issue where it 
+  could miscalculate time differences every 49 days.</LI>
+  <LI>The <CODE>--no-lock-index</CODE> option of <CODE>git status</CODE> <A 
+  href="https://github.com/git-for-windows/git/pull/1004">is now also respected 
+  also in submodules</A>.</LI>
+  <LI>The regression of v2.11.0 where Git could no longer push to shared folders 
+  via UNC paths <A href="https://github.com/git-for-windows/git/issues/979">is 
+  fixed</A>.</LI>
+  <LI>A bug in the MSYS2 runtime where it performed POSIX-&gt;Windows argument 
+  conversion incorrectly <A href="https://github.com/git-for-windows/msys2-runtime/commit/3cf1b9c3ac4c5490bc94b00cc44682d2637d0b95">was 
+  fixed</A>.</LI>
+  <LI>The MSYS2 runtime <A href="https://github.com/git-for-windows/msys2-runtime/commit/5fe6d81012e97a348608511450f6a63750c906b6">was 
+  prepared to access the <CODE>FAST_CWD</CODE> internal data structure in 
+  upcoming Windows versions</A>.</LI>
+  <LI><A href="https://github.com/git-for-windows/git/commit/ecb88230d10382833dc961f83cd1092b8d0a2af2">Fixed 
+  a bug</A> in the experimental builtin difftool where it would not handle 
+  copied/renamed files properly.</LI></UL>
+<H2>Changes since Git for Windows v2.10.2 (November 2nd 2016)</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with <A href="https://github.com/git/git/blob/v2.11.0/Documentation/RelNotes/2.11.0.txt">Git 
+  v2.11.0</A>.</LI>
+  <LI>Performance of <CODE>git add</CODE> in large worktrees <A href="https://github.com/git-for-windows/git/pull/971">was 
+  improved</A>.</LI>
+  <LI>A <A href="https://github.com/git-for-windows/git/commit/5f3656e4b4b8ceeff40bc7fcf03aba3560bff17c">new, 
+  experimental, builtin version of the difftool</A> is available as <A href="https://github.com/git-for-windows/build-extra/commit/74339bdd9fab9fbf890f079c9024ff4f1309bb6d">an 
+  opt-in feature</A>.</LI>
+  <LI>Support <A href="https://github.com/git-for-windows/git/commit/056b41311688e9f433fe28e6b3aa6687fa36ca70">has 
+  been added</A> to generate project files for Visual Studio 2010 and 
+later.</LI></UL>
+<H3>Bug Fixes</H3>
+<UL>
+  <LI>The preload-index feature <A href="https://github.com/git-for-windows/git/pull/955">now 
+  behaves much better in conjunction with sparse checkouts</A>.</LI>
+  <LI>When encountering a symbolic link, Git <A href="https://github.com/git-for-windows/git/issues/958">now 
+  always tries to read it</A>, not only when <CODE>core.symlinks = 
+  true</CODE>.</LI>
+  <LI>The regression where Git would not interpret non-ASCII characters passed 
+  from a CMD window correctly <A href="https://github.com/git-for-windows/git/issues/945">has 
+  been fixed</A>.</LI>
+  <LI>Performance of the cache of case-insensitive file names <A href="https://github.com/git-for-windows/git/pull/964">has 
+  been improved</A>.</LI>
+  <LI>When building with MS Visual C, <A href="https://github.com/git-for-windows/git/pull/948">release 
+  builds are now properly optimized</A>.</LI>
+  <LI><CODE>git cvsexportcommit</CODE> <A href="https://github.com/git-for-windows/git/pull/938">now 
+  also works with CVSNT</A>.</LI>
+  <LI>Git's Perl <A href="https://github.com/git-for-windows/git/issues/963">no 
+  longer gets confused by externally-set <CODE>PERL5LIB</CODE></A>.</LI>
+  <LI>The uninstaller <A href="https://github.com/git-for-windows/git/issues/909">no 
+  longer leaves an empty <CODE>Git\mingw64</CODE> folder behind</A>.</LI>
+  <LI>The installer <A href="https://github.com/git-for-windows/build-extra/commit/6da8414b8c75c76fa526bd75fec22eaefad88e09">now 
+  actually records</A> whether the user chose to enable or disable the Git 
+  Credential Manager.</LI>
+  <LI>A certain scenario that could cause a crash in cherry-pick <A href="https://github.com/git-for-windows/git/issues/952">no 
+  longer causes that</A>.</LI></UL>
+<H2>Changes since Git for Windows v2.10.1(2) (October 13th 2016)</H2>
+<P>Git for windows v2.10.1(2) was a MinGit-only release (i.e. there was no Git 
+for windows installer for that version).</P>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with <A href="https://github.com/git/git/blob/v2.10.2/Documentation/RelNotes/2.10.2.txt">Git 
+  v2.10.2</A>.</LI>
+  <LI>Comes with Git Credential Manager <A href="https://github.com/Microsoft/Git-Credential-Manager-for-Windows/releases/tag/v1.8.1">v1.8.1</A>.</LI>
+  <LI>Comes with cURL <A href="https://github.com/curl/curl/releases/tag/curl-7_51_0">v7.51.0</A>.</LI>
+  <LI>Git for Windows <A 
+  href="https://github.com/git-for-windows/git/pull/773">can now be built easily 
+  with Visual C++ 2015</A>.</LI>
+  <LI>The installer <A href="https://github.com/git-for-windows/build-extra/commit/8332900af09116544f1bee8d20bbfd77daf3186f">now 
+  logs <CODE>post-install</CODE> errors more verbosely</A>.</LI>
+  <LI>A new option asks the installer <A href="https://github.com/git-for-windows/build-extra/commit/410b4b13505a8a25b199f5cbad0f4afa1a698f34">to 
+  skip installation if Git's files are in use</A>.</LI>
+  <LI>A new option asks the installer <A href="https://github.com/git-for-windows/build-extra/commit/c7bc72a157960ee9eef644141f116060c6c31c14">to 
+  quietly skip downgrading Git for Windows</A>, without indicating failure.</LI>
+  <LI>There is <A href="https://github.com/git-for-windows/git/issues/921">now 
+  an explicit option for symbolic link support</A>, including a link to a more 
+  verbose explanation of the issue.</LI></UL>
+<H3>Bug Fixes</H3>
+<UL>
+  <LI>when upgrading Git for Windows, SSH agent processes <A href="https://github.com/git-for-windows/git/issues/920">are 
+  now auto-terminated</A>.</LI>
+  <LI>When trying to install/upgrade on a Windows version that is no longer 
+  supported, <A href="https://github.com/git-for-windows/git/issues/928">we now 
+  refuse to do so</A>.</LI></UL>
+<H2>Changes since Git for Windows v2.10.1 (October 4th 2016)</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>The speed of the SHA-1 calculation was improved by <A href="https://github.com/git-for-windows/git/pull/915">using 
+  OpenSSL's routines</A> which leverages features of current Intel 
+hardware.</LI>
+  <LI>The <CODE>git reset</CODE> command <A href="https://github.com/git-for-windows/git/commit/6a6c0e84720ab5a374b61341ba9ab645ffafd35f">learned 
+  the (still experimental) <CODE>--stdin</CODE> option</A>.</LI></UL>
+<H2>Changes since Git for Windows v2.10.0 (September 3rd 2016)</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with <A href="https://github.com/git/git/blob/v2.10.1/Documentation/RelNotes/2.10.1.txt">Git 
+  v2.10.1</A>.</LI>
+  <LI>Comes with Git Credential Manager <A href="https://github.com/Microsoft/Git-Credential-Manager-for-Windows/releases/tag/v1.7.0">v1.7.0</A>.</LI>
+  <LI>Comes with <A href="https://github.com/petervanderdoes/gitflow-avh/releases/tag/1.10.0">Git 
+  Flow v1.10.0</A>.</LI>
+  <LI>We <A href="https://github.com/git-for-windows/build-extra/pull/128">now 
+  produce nice diffs for <CODE>.docm</CODE> and <CODE>.dotm</CODE> files</A>, 
+  just as we did for <CODE>.docx</CODE> files already.</LI></UL>
+<H3>Bug Fixes</H3>
+<UL>
+  <LI>The icon in the Explorer integration ("Git Bash Here"), which was lost by 
+  mistake in v2.10.0, <A href="https://github.com/git-for-windows/git/issues/870">is 
+  back</A>.</LI>
+  <LI><A href="https://github.com/git-for-windows/git/commit/c4f481a41de66d24f6f9943104600f2e4f24b152">Fixed 
+  a crash</A> when calling <CODE>git diff -G&lt;regex&gt;</CODE> on new-born 
+  files without configured user diff drivers.</LI>
+  <LI>Interactive GPG signing of commits and tags <A href="https://github.com/git-for-windows/git/issues/871">was 
+  fixed</A>.</LI>
+  <LI>Calling Git with <CODE>--date=format:&lt;invalid-format&gt;</CODE> <A 
+  href="https://github.com/git-for-windows/git/issues/863">no longer results in 
+  an out-of-memory</A> but reports the problem and aborts instead.</LI>
+  <LI>Git Bash <A href="https://github.com/git-for-windows/git/issues/580">now 
+  opens properly even for Azure AD accounts</A>.</LI>
+  <LI>Git GUI <A 
+  href="https://github.com/git-for-windows/git/issues/850">respects the 
+  <CODE>commit.gpgsign</CODE> setting again</A>.</LI>
+  <LI>Upgrades the bundled OpenSSL to <A href="https://www.openssl.org/news/cl102.txt">v1.0.2j</A>.</LI></UL>
+<H2>Changes since Git for Windows v2.9.3(2) (August 25th 2016)</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with <A href="https://github.com/git/git/blob/v2.10.0/Documentation/RelNotes/2.10.0.txt">Git 
+  v2.10.0</A>.</LI>
+  <LI>The <CODE>git rebase -i</CODE> command was made faster <A href="https://github.com/git-for-windows/git/compare/3259f1f348b8173050c269dde7dc02346db759f3%5E...3259f1f348b8173050c269dde7dc02346db759f3%5E2">by 
+  reimplementing large parts in C</A>.</LI>
+  <LI>After helping the end-users to use the new defaults for PATH and FSCache, 
+  the installer <A href="https://github.com/git-for-windows/build-extra/compare/a0a8613c54c0bd651904432f07f7b2999790b097~2...a0a8613c54c0bd651904432f07f7b2999790b097">now 
+  respects the saved settings again</A>.</LI>
+  <LI><CODE>git version --build-options</CODE> now <A href="https://github.com/git-for-windows/git/pull/866">also 
+  reports the architecture</A>.</LI></UL>
+<H3>Bug Fixes</H3>
+<UL>
+  <LI>When upgrading Git for Windows, the installer <A href="https://github.com/git-for-windows/build-extra/commit/6682a86026e801d9c88c1903d5bd4dd1a0d79c4e">no 
+  longer opens a second window while uninstalling the previous version</A>.</LI>
+  <LI>Git for Windows' SDK <A href="https://github.com/git-for-windows/build-extra/commit/955e82b25a825f005946e7e4951e29404370aa94">can 
+  build an installer out of the box again</A>, without requiring an extra 
+  package to be installed.</LI></UL>
+<H2>Changes since Git for Windows v2.9.3 (August 13th 2016)</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with Git Credential Manager <A href="https://github.com/Microsoft/Git-Credential-Manager-for-Windows/releases/tag/v1.6.1">v1.6.1</A>.</LI>
+  <LI>The feature introduced with Git for Windows v2.9.3 where 
+  <CODE>cat-file</CODE> can apply smudge filters <A href="https://github.com/git-for-windows/git/compare/f080fe716%5E...f080fe716">was 
+  renamed to <CODE>--filters</CODE> and made compatible with the 
+  <CODE>--batch</CODE> mode (the former option name <CODE>--smudge</CODE> has 
+  been deprecated and will go away in v2.10.0)</A>.</LI>
+  <LI>Comes with OpenSSH <A href="https://github.com/git-for-windows/MSYS2-packages/compare/da63f58~3...da63f58">7.3p1</A>.</LI>
+  <LI>Git's .exe files are now <A href="https://github.com/git-for-windows/build-extra/commit/3e9b83526">code-signed</A>, 
+  helping with performance when being run with <A href="https://en.wikipedia.org/wiki/Windows_File_Protection">Windows 
+  File Protection</A>.</LI></UL>
+<H2>Changes since Git for Windows v2.9.2 (July 16th 2016)</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with <A href="https://github.com/git/git/blob/v2.9.3/Documentation/RelNotes/2.9.3.txt">Git 
+  2.9.3</A>.</LI>
+  <LI>Updated Git Credential Manager to <A href="https://github.com/Microsoft/Git-Credential-Manager-for-Windows/releases/tag/v.1.6.0">version 
+  1.6.0</A>.</LI>
+  <LI>Includes support for <CODE>git status --porcelain=v2</CODE>.</LI>
+  <LI>Avoids evaluating unnecessary patch IDs when determining which commits do 
+  not need to be rebased because they are already upstream.</LI>
+  <LI>Sports a new <CODE>--smudge</CODE> option for <CODE>git cat-file</CODE> 
+  that lets it pass blob contents through smudge filters configured for the 
+  specified path.</LI></UL>
+<H3>Bug Fixes</H3>
+<UL>
+  <LI>When offering to <CODE>Launch Git Bash</CODE> after the installation, <A 
+  href="https://github.com/git-for-windows/build-extra/commit/aa0b462">it now 
+  launches in the home directory</A>, consistent with the <CODE>Git Bash</CODE> 
+  Start Menu entry.</LI>
+  <LI>When <CODE>~/.gitconfig</CODE> sets <CODE>core.hideDotFiles=false</CODE>, 
+  <CODE>git init</CODE> <A href="https://github.com/git-for-windows/git/issues/789">respects 
+  that again</A>.</LI></UL>
+<H2>Changes since Git for Windows v2.9.0 (June 14th 2016)</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with <A href="https://github.com/git/git/blob/v2.9.2/Documentation/RelNotes/2.9.2.txt">Git 
+  2.9.2</A> (skipping the Windows release of <A href="https://github.com/git/git/blob/v2.9.1/Documentation/RelNotes/2.9.1.txt">Git 
+  2.9.1</A> due to a regression caught by the automated tests).</LI>
+  <LI>Git Credential Manager was updated to <A href="https://github.com/Microsoft/Git-Credential-Manager-for-Windows/releases/tag/v1.5.0">v1.5.0</A>.</LI>
+  <LI>The installer <A href="https://github.com/git-for-windows/build-extra/commit/82dc6284">will 
+  now refuse to downgrade Git for Windows, unless the user assures that it is 
+  intended</A>.</LI>
+  <LI>MinGit, the portable, non-interactive Git intended for third-party tools, 
+  <A href="https://github.com/git-for-windows/build-extra/commit/16a8cf5">is now 
+  also built as part of Git for Windows' official versions</A>.</LI></UL>
+<H3>Bug Fixes</H3>
+<UL>
+  <LI>When <CODE>git bundle create</CODE> is asked to create an empty bundle, it 
+  is supposed to error out and delete the corrupt bundle file. The deletion <A 
+  href="https://github.com/git-for-windows/git/pull/797">no longer fails due to 
+  an unreleased lock file</A>.</LI>
+  <LI>When launching <CODE>git help &lt;command&gt;</CODE>, the 
+  <CODE>help.browser</CODE> config setting <A href="https://github.com/git-for-windows/git/pull/793">is 
+  now respected</A>.</LI>
+  <LI>The title bar in Git for Windows' SDK <A href="https://github.com/git-for-windows/build-extra/pull/122">shows 
+  the correct prefix again</A>.</LI>
+  <LI>We <A href="https://github.com/git-for-windows/git/commit/ac008b30ec070f459450d602c55d55816aae2915">no 
+  longer throw an assertion</A> when using the <CODE>git 
+  credential-store</CODE>.</LI>
+  <LI>When configuring <CODE>notepad</CODE> as commit message editor, <A href="https://github.com/git-for-windows/build-extra/pull/123">UTF-8 
+  messages are now handled correctly</A>.</LI></UL>
+<H2>Changes since Git for Windows v2.8.4 (June 7th 2016)</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with <A href="https://github.com/git/git/blob/v2.9.0/Documentation/RelNotes/2.9.0.txt">Git 
+  2.9.0</A>.</LI></UL>
+<H3>Bug Fixes</H3>
+<UL>
+  <LI>When running <CODE>git gc --aggressive</CODE> or <CODE>git repack 
+  -ald</CODE> in the presence of multiple pack files, the command still had open 
+  handles to the pack files it wanted to remove. This <A href="https://github.com/git-for-windows/git/commit/85bc5ad9a69fa120b23471d483dc8da35d771ab7">has 
+  been fixed</A>.</LI></UL>
+<H2>Changes since Git for Windows v2.8.3 (May 20th 2016)</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with <A href="https://github.com/git/git/blob/v2.8.4/Documentation/RelNotes/2.8.4.txt">Git 
+  2.8.4</A>.</LI></UL>
+<H3>Bug Fixes</H3>
+<UL>
+  <LI>Child processes <A 
+  href="https://github.com/git-for-windows/git/pull/755">no longer inherit 
+  handles to temporary files</A>, which previously could prevent 
+  <CODE>index.lock</CODE> from being deleted.</LI>
+  <LI>When configuring Git Bash with Windows' default console, it <A href="https://github.com/git-for-windows/build-extra/pull/118">no 
+  longer loses its icon</A>.</LI></UL>
+<H2>Changes since Git for Windows v2.8.2 (May 3rd 2016)</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with <A href="https://github.com/git/git/blob/v2.8.3/Documentation/RelNotes/2.8.3.txt">Git 
+  v2.8.3</A>.</LI></UL>
+<H2>Changes since Git for Windows v2.8.1 (April 4th 2016)</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with <A href="https://github.com/git/git/raw/v2.8.2/Documentation/RelNotes/2.8.2.txt">Git 
+  v2.8.2</A>.</LI>
+  <LI>Starting with version 2.8.2, <A href="https://www.nuget.org/packages/GitForWindows/">Git 
+  for Windows is also published as a NuGet package</A>.</LI>
+  <LI>Comes with Git Credential Manager v1.3.0.</LI></UL>
+<H3>Bug Fixes</H3>
+<UL>
+  <LI>FSCache <A href="https://github.com/git-for-windows/build-extra/commit/a1ae146">is 
+  now enabled by default</A> even when upgrading from previous Git for Windows 
+  versions.</LI>
+  <LI>We now add <CODE>git.exe</CODE> to the <CODE>PATH</CODE> <A href="https://github.com/git-for-windows/build-extra/commit/1e2e00e">by 
+  default</A> even when upgrading from previous Git for Windows versions.</LI>
+  <LI>Git GUI <A href="https://github.com/git-for-windows/git/pull/726">now sets 
+  author information correctly when amending</A>.</LI>
+  <LI>OpenSSL received a critical update to <A href="https://www.openssl.org/news/newslog.html">version 
+  1.0.2h</A>.</LI></UL>
+<H2>Changes since Git for Windows v2.8.0 (March 29th 2016)</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with <A 
+  href="http://article.gmane.org/gmane.linux.kernel/2189878">Git 
+v2.8.1</A>.</LI>
+  <LI>The Git for Windows project updated its contributor guidelines to the <A 
+  href="https://github.com/git-for-windows/git/pull/661">Contributor Covenant 
+  1.4</A>.</LI></UL>
+<H3>Bug Fixes</H3>
+<UL>
+  <LI>Git's default editor (<CODE>vim</CODE>) is <A href="https://github.com/git-for-windows/msys2-runtime/commit/1ca92fa2ef89bf9d61d3911a499d8187db18427a">no 
+  longer freezing</A> in CMD windows.</LI>
+  <LI>GIT_SSH (and other executable paths that Git wants to spawn) <A href="https://github.com/git-for-windows/git/issues/692">can 
+  now contain spaces</A>.</LI></UL>
+<H2>Changes since Git for Windows v2.7.4 (March 18th 2016)</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with <A 
+  href="http://article.gmane.org/gmane.linux.kernel/2185094">Git 
+v2.8.0</A>.</LI>
+  <LI>Comes with the <A href="https://github.com/Microsoft/Git-Credential-Manager-for-Windows/releases/tag/v1.2.2">Git 
+  Credential Manager v1.2.2</A>.</LI>
+  <LI>The FSCache feature (which was labeled experimental for quite some time) 
+  <A href="https://github.com/git-for-windows/build-extra/pull/101">is now 
+  enabled by default</A>.</LI>
+  <LI>Git is now <A href="https://github.com/git-for-windows/build-extra/pull/102">added 
+  to the <CODE>PATH</CODE> by default</A> (previously, the default was for Git 
+  to be available only from Git Bash/CMD).</LI>
+  <LI>The installer <A href="https://github.com/git-for-windows/build-extra/pull/103">now 
+  offers to launch the Git Bash right away</A>.</LI></UL>
+<H3>Bug Fixes</H3>
+<UL>
+  <LI>The previous workaround for the blurred link to the Git Credential Manager 
+  <A href="https://github.com/git-for-windows/build-extra/commit/58d978cb84096bcc887170cbfcf44af022848ae3">was 
+  fixed</A> so that the link is neither blurry nor overlapping.</LI>
+  <LI>The installer <A href="https://github.com/git-for-windows/build-extra/pull/104">now 
+  changes the label of the <CODE>Next</CODE> button to <CODE>Install</CODE></A> 
+  on the last wizard page before installing.</LI></UL>
+<H2>Changes since Git for Windows v2.7.3 (March 15th 2016)</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with <A 
+  href="http://article.gmane.org/gmane.linux.kernel/2179363">Git 
+2.7.4</A>.</LI></UL>
+<H3>Bug Fixes</H3>
+<UL>
+  <LI>The Git Credential Manager hyperlink in the installer <A href="https://github.com/git-for-windows/build-extra/commit/28bb2a330323ba1c69f278cafa81e3e4fd3bf71c">is 
+  no longer blurred</A>.</LI></UL>
+<H2>Changes since Git for Windows v2.7.2 (February 23rd 2016)</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Git for Windows <A href="https://github.com/git-for-windows/git/issues/466">now 
+  ships with</A> the <A href="https://github.com/Microsoft/Git-Credential-Manager-for-Windows/">Git 
+  Credential Manager for Windows</A>.</LI>
+  <LI>Comes with <A 
+  href="http://article.gmane.org/gmane.linux.kernel/2174435">Git 
+v2.7.3</A>.</LI></UL>
+<H3>Bug Fixes</H3>
+<UL>
+  <LI>We <A href="https://github.com/git-for-windows/git/issues/665">now handle 
+  UTF-8 merge and squash messages correctly in Git GUI</A>.</LI>
+  <LI>When trying to modify a repository config outside of any Git worktree, <A 
+  href="https://github.com/git-for-windows/git/commit/64acc338c"><CODE>git 
+  config</CODE> no longer creates a <CODE>.git/</CODE> directory</A> but prints 
+  an appropriate error message instead.</LI>
+  <LI>A new version of Git for Windows' SDK <A href="https://github.com/git-for-windows/build-extra/releases/git-sdk-1.0.3]%20that%20[works%20around%20pacman-key%20issues](https://github.com/git-for-windows/git/issues/670">was 
+  released</A>.</LI>
+  <LI>We <A href="https://github.com/git-for-windows/git/pull/677">no longer 
+  show asterisks when reading the username for credentials</A>.</LI></UL>
+<H2>Changes since Git for Windows v2.7.1(2) (February 12th 2016)</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Git for Windows' SDK version 1.0.2 <A href="https://github.com/git-for-windows/build-extra/releases/tag/git-sdk-1.0.2">has 
+  been released</A>.</LI>
+  <LI>The "list references" window of <CODE>gitk</CODE> <A href="https://github.com/git-for-windows/git/pull/620">is 
+  now wider by default</A>.</LI>
+  <LI>Comes with <A 
+  href="http://article.gmane.org/gmane.linux.kernel/2158401">Git 
+2.7.2</A>.</LI></UL>
+<H3>Bug Fixes</H3>
+<UL>
+  <LI>The user is <A 
+  href="https://github.com/git-for-windows/git/issues/527">now presented with a 
+  nice error message</A> when calling <CODE>node</CODE> while 
+  <CODE>node.exe</CODE> is not in the <CODE>PATH</CODE> (this bug also affected 
+  other interactive console programs such as <CODE>python</CODE> and 
+  <CODE>php</CODE>).</LI>
+  <LI>The arrow keys <A 
+  href="https://github.com/git-for-windows/git/issues/495">are respected again 
+  in gitk</A>.</LI>
+  <LI>When a too-long path is encountered, <CODE>git clean -dfx</CODE> <A href="https://github.com/git-for-windows/git/issues/521">no 
+  longer aborts quietly</A>.</LI>
+  <LI>Git GUI learned to <A href="https://github.com/git-for-windows/git/issues/515">stage 
+  lines appended to a single-line file</A>.</LI>
+  <LI>When launching <CODE>C:\Program Files\Git\bin\bash -l -i</CODE> in a cmd 
+  window and pressing Ctrl+C, <A href="https://github.com/git-for-windows/git/pull/205">the 
+  console is no longer corrupted</A> (previously, the <CODE>bash.exe</CODE> 
+  redirector would terminate and both cmd &amp; Bash would compete for user 
+  input).</LI></UL>
+<H2>Changes since Git for Windows v2.7.1 (February 6th 2016)</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>The context menu items in the explorer <A href="https://github.com/git-for-windows/build-extra/pull/97">now 
+  show icons</A>.</LI></UL>
+<H3>Bug Fixes</H3>
+<UL>
+  <LI>A bug <A href="https://github.com/git-for-windows/git/commit/4abc31070f683e555de95331da0990052f55caa5">was 
+  fixed</A> where worktrees would forget their location e.g. after an 
+  interactive rebase.</LI>
+  <LI>Thanks to Eric Lawrence and Martijn Laan, <A href="https://github.com/git-for-windows/build-extra/tree/master/installer/InnoSetup">our 
+  installer sports a better way to look for system files now</A>.</LI></UL>
+<H2>Changes since Git for Windows v2.7.0(2) (February 2nd 2016)</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with <A href="http://article.gmane.org/gmane.comp.version-control.git/285657">Git 
+  2.7.1</A>.</LI></UL>
+<H3>Bug Fixes</H3>
+<UL>
+  <LI>Git GUI now <A 
+  href="https://github.com/git-for-windows/git/issues/410">starts properly even 
+  when the working directory contains non-ASCII characters</A>.</LI>
+  <LI>We forgot to enable Address Space Layout Randomization and Data Execution 
+  Prevention on our Git wrapper, and this is <A href="file://github.com/git-for-windows/git/issues/644">now 
+  fixed</A>.</LI>
+  <LI>A bug in one of the DLLs used by Git for Windows <A href="https://github.com/Alexpux/MINGW-packages/pull/1051">was 
+  fixed</A> that prevented Git from working properly in 64-bit setups where <A 
+  href="https://technet.microsoft.com/en-us/library/cc779664%28v=ws.10%29.aspx">the 
+  <CODE>FLG_LDR_TOP_DOWN</CODE> global flag</A> is set.</LI></UL>
+<H2>Changes since Git for Windows v2.7.0 (January 5th 2016)</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>To stave off exploits, Git for Windows <A href="https://github.com/git-for-windows/git/pull/612">now 
+  uses Address Space Layout Randomization (ASLR) and Data Execution Prevention 
+  (DEP)</A>.</LI>
+  <LI>Git for Windows' support for <CODE>git pull --rebase=interactive</CODE> 
+  that was dropped when the <CODE>pull</CODE> command was rewritten in C, <A 
+  href="https://github.com/git/git/commit/f9219c0b3">was resurrected</A>.</LI>
+  <LI>The installers are now <A href="https://github.com/git-for-windows/git/issues/592">dual 
+  signed</A> with SHA-2 and SHA-1 certificates.</LI>
+  <LI>The uninstaller <A href="https://github.com/git-for-windows/git/issues/540">is 
+  signed now, too</A>.</LI></UL>
+<H3>Bug Fixes</H3>
+<UL>
+  <LI>When installing as administrator, we <A href="https://github.com/git-for-windows/build-extra/commit/a13ffd7c3fa24e2ac1ef3561d7a7f09a0b924338">no 
+  longer offer the option to install quiicklaunch icons</A> because quicklaunch 
+  icons can only be installed per-user.</LI>
+  <LI>If a <CODE>~/.bashrc</CODE> is detected without a 
+  <CODE>~/.bash_profile</CODE>, the generated file will now <A href="https://github.com/git-for-windows/build-extra/pull/91">also 
+  source <CODE>~/.profile</CODE> if that exists</A>.</LI>
+  <LI>The environment variable <CODE>HOME</CODE> can now be used to set the home 
+  directory <A href="https://github.com/git-for-windows/msys2-runtime/commit/9660c5ffe82b921dd2193efa18e9721f47a6b22f">even 
+  when running with accounts that are part of a different domain than the 
+  current (non-domain-joined) machine</A> (in which case the MSYS2 runtime has 
+  no way to emulate POSIX-style UIDs).</LI>
+  <LI>Git <A href="https://github.com/Alexpux/MINGW-packages/pull/986">can now 
+  fetch and push via HTTPS</A> even when the <CODE>http.sslCAInfo</CODE> config 
+  variable was unset.</LI>
+  <LI>Git for Windows is now <A href="https://github.com/git-for-windows/git/pull/606">handling 
+  the case gracefully where the current user has no permission to list the 
+  parent of the current directory</A>.</LI>
+  <LI>More file locking issues ("Unlink of file ... failed. Should I try 
+  again?") <A href="https://github.com/git-for-windows/git/issues/500">were 
+  fixed</A>.</LI></UL>
+<H2>Changes since Git for Windows v2.6.4 (December 14th 2015)</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with <A 
+  href="http://article.gmane.org/gmane.linux.kernel/2118402">Git 
+v2.7.0</A>.</LI></UL>
+<H2>Bug Fixes</H2>
+<UL>
+  <LI>Non-ASCII command-lines are now <A href="https://github.com/git-for-windows/msys2-runtime/commit/4c362726c41102173613658">passed 
+  properly</A> to shell scripts.</LI></UL>
+<H2>Changes since Git for Windows v2.6.3 (November 10th 2015)</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with <A 
+  href="http://article.gmane.org/gmane.linux.kernel/2103498">Git 
+v2.6.4</A>.</LI>
+  <LI>Also available as <CODE>.tar.bz2</CODE> packages (you need an 
+  MSYS2/Cygwin-compatible unpacker to recreate the symbolic links 
+  correctly).</LI></UL>
+<H2>Bug Fixes</H2>
+<UL>
+  <LI>Git for Windows v2.6.3's installer <A href="https://github.com/git-for-windows/git/issues/523">failed</A> 
+  to <A href="https://github.com/git-for-windows/git/issues/526">elevate 
+  privileges automatically</A> (reported <A href="https://github.com/git-for-windows/git/issues/528">three 
+  times</A>, making it a charm), and as a consequence Git for Windows 2.6.3 was 
+  frequently <A href="https://github.com/git-for-windows/build-extra/commit/23672af723da18e5bc3c679e52106de3c2dec55a">installed 
+  per-user by mistake</A></LI>
+  <LI>The bug where <A 
+  href="https://github.com/git-for-windows/git/issues/542"><CODE>SHELL_PATH</CODE> 
+  had spaces</A> and that was <A href="https://github.com/git-for-windows/git/issues/498">reported</A> 
+  multiple <A href="https://github.com/git-for-windows/git/issues/468">times</A> 
+  has been <A href="https://github.com/git-for-windows/msys2-runtime/commit/7f4284d245f9c736dc8ec52e12c5d67cea7e4ba9">fixed</A>.</LI>
+  <LI>An additional work-around from upstream Git for <CODE>SHELL_PATH</CODE> 
+  containing spaces (fixing <A href="https://github.com/git-for-windows/git/issues/542">problems 
+  with interactive rebase's <CODE>exec</CODE> command</A> has been 
+applied.</LI></UL>
+<H2>Changes since Git for Windows v2.6.2 (October 19th 2015)</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with <A href="http://article.gmane.org/gmane.comp.version-control.git/280947">Git 
+  v2.6.3</A>.</LI>
+  <LI><A href="https://github.com/git-for-windows/git/issues/501">Enables the 
+  stack smasher to protect against buffer overflows</A>.</LI></UL>
+<H3>Bug Fixes</H3>
+<UL>
+  <LI>Git Bash <A href="https://github.com/git-for-windows/git/issues/509">works 
+  now even when choosing Windows' default console <EM>and</EM> installing into a 
+  short path (e.g. <CODE>C:\Git</CODE>)</A>.</LI>
+  <LI>Notepad <A href="https://github.com/git-for-windows/git/issues/517">can 
+  now really be used to edit commit messages</A>.</LI>
+  <LI>Git's garbage collector <A href="https://github.com/git-for-windows/git/issues/423">now 
+  handles stale <CODE>refs/remotes/origin/HEAD</CODE> gracefully</A>.</LI>
+  <LI>The regression in Git for Windows 2.6.2 that it required administrator 
+  privileges to be installed <A href="https://github.com/git-for-windows/build-extra/pull/86">is 
+  now fixed</A>.</LI>
+  <LI>When <CODE>notepad</CODE> is configured as default editor, we no longer do 
+  anything specially <A 
+  href="https://github.com/git-for-windows/git/issues/488">unless editing files 
+  inside <CODE>.git/</CODE></A>.</LI></UL>
+<H2>Changes since Git for Windows v2.6.1 (October 5th 2015)</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with Git v2.6.2</LI>
+  <LI>Users who are part of a Windows domain <A href="https://github.com/git-for-windows/git/pull/487">now 
+  have sensible default values</A> for <CODE>user.name</CODE> and 
+  <CODE>user.email</CODE>.</LI></UL>
+<H3>Bug Fixes</H3>
+<UL>
+  <LI>We <A href="https://github.com/git-for-windows/git/pull/486">no longer run 
+  out of page file space</A> when <CODE>git fetch</CODE>ing large 
+  repositories.</LI>
+  <LI>The description of Windows' default console is accurate now (the console 
+  became more powerful in Windows 10).</LI>
+  <LI><EM>Git GUI</EM> now respects the <A href="https://github.com/git-for-windows/git/issues/490">terminal 
+  emulation chosen at install time</A> when <A href="https://github.com/git-for-windows/git/pull/492">running 
+  the <EM>Git Bash</EM></A>.</LI></UL>
+<H2>Changes since Git-2.6.0 (September 29th 2015)</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with Git 2.6.1</LI>
+  <LI>The installer <A 
+  href="https://github.com/git-for-windows/git/issues/454">now writes the file 
+  <CODE>/etc/install-options.txt</CODE></A> to record which options were chosen 
+  at install time.</LI>
+  <LI>Replaces <CODE>git flow</CODE> with <A href="https://github.com/petervanderdoes/gitflow-avh">the 
+  <EM>AVH edition</EM></A> which is maintained actively, in surprising and 
+  disappointing contrast to Vincent Driessen's very own project.</LI></UL>
+<H3>Bug Fixes</H3>
+<UL>
+  <LI>The <CODE>PATH</CODE> variable <A href="https://github.com/git-for-windows/git/issues/438">is 
+  now really left alone</A> when choosing the <EM>"Use Git from Git Bash 
+  only"</EM> option in the installer. Note that upgrading Git for Windows will 
+  call the previous version's uninstaller, which might still have that bug.</LI>
+  <LI>Git GUI's <EM>Registry&gt;Create Desktop Icon</EM> <A href="https://github.com/git-for-windows/git/issues/448">now 
+  generates correct shortcuts</A>.</LI>
+  <LI>The <CODE>antiword</CODE> utility to render Word documents for use in 
+  <CODE>git diff</CODE> <A href="https://github.com/git-for-windows/git/issues/453">now 
+  works correctly</A>.</LI>
+  <LI>In 64-bit installations, we <A href="https://github.com/git-for-windows/git/issues/288">no 
+  longer set a pack size limit by default</A>.</LI>
+  <LI>When installing Git for Windows as regular user, <A href="https://github.com/git-for-windows/git/issues/455">the 
+  installer no longer tries to create privileged registry keys</A>.</LI></UL>
+<H2>Changes since Git-2.5.3 (September 18th 2015)</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with Git 2.6.0</LI>
+  <LI>The <CODE>WhoUses.exe</CODE> tool to determine which process holds a lock 
+  on a given file (which was shipped with Git for Windows 1.x) <A href="https://github.com/git-for-windows/git/issues/408">gets 
+  installed alongside Git for Windows again</A>.</LI>
+  <LI>The values <CODE>CurrentVersion</CODE>, <CODE>InstallPath</CODE> and 
+  <CODE>LibexecPath</CODE> are <A href="https://github.com/git-for-windows/git/issues/427">added 
+  to the <CODE>HKEY_LOCAL_MACHINE\Software\GitForWindows</CODE> registry key</A> 
+  to help third-party add-ons to find us.</LI>
+  <LI>When fetching or pushing with Git <EM>without</EM> a console, we now <A 
+  href="https://github.com/git-for-windows/git/issues/428">fall back to Git 
+  GUI's <CODE>askpass</CODE> helper</A> to ask for pass phrases.</LI>
+  <LI>When run through <CODE>&lt;INSTALL_PATH&gt;\cmd\git.exe</CODE>, Git <A 
+  href="https://github.com/git-for-windows/git/issues/429">will find tools in 
+  <CODE>$HOME/bin</CODE></A> now.</LI></UL>
+<H3>Bug Fixes</H3>
+<UL>
+  <LI>The portable version avoids DLL search path problems <A href="https://github.com/git-for-windows/git/issues/390">even 
+  when installed into a FAT filesystem</A>.</LI>
+  <LI>Configuring <CODE>notepad</CODE> as editor without configuring a width for 
+  commit messages <A href="https://github.com/git-for-windows/git/issues/430">no 
+  longer triggers an error message</A>.</LI>
+  <LI>When using Windows' default console for <EM>Git Bash</EM>, <A href="https://github.com/git-for-windows/git/issues/396">the 
+  <CODE>.sh</CODE> file associations work again</A>.</LI>
+  <LI>Portable Git's <CODE>README</CODE> <A href="https://github.com/git-for-windows/build-extra/pull/83">is 
+  now clearer about the need to run <CODE>post-install.bat</CODE> when unpacking 
+  manually</A>.</LI>
+  <LI><A href="https://github.com/git-for-windows/git/issues/436">We use the 
+  <CODE>winpty</CODE> trick now</A> to run <CODE>ipython</CODE> interactively, 
+  too.</LI>
+  <LI>When the environment variable <CODE>HOME</CODE> is not set, we <A href="https://github.com/git-for-windows/git/issues/414">now</A> 
+  fall back <A 
+  href="https://github.com/git-for-windows/git/issues/434">correctly</A> to use 
+  <CODE>HOMEDRIVE</CODE> and <CODE>HOMEPATH</CODE>.</LI>
+  <LI>The home directory is now <A href="https://github.com/git-for-windows/git/issues/435">set 
+  correctly</A> when running as the <CODE>SYSTEM</CODE> user.</LI>
+  <LI>The environment variable <CODE>GIT_WORK_TREE</CODE> <A href="https://github.com/git-for-windows/git/issues/402">may 
+  now differ in lower/upper case with the Git's idea of the current working 
+  directory</A>.</LI>
+  <LI>Running <CODE>git clone --dissociate ...</CODE> <A href="https://github.com/git-for-windows/git/issues/446">no 
+  longer locks the pack files during the repacking phase</A>.</LI>
+  <LI>Upstream cURL fixes for NTLM proxy issues ("Unknown SSL error") <A href="https://github.com/git-for-windows/git/issues/373">were 
+  backported</A>.</LI>
+  <LI>The 64-bit version <A href="https://github.com/git-for-windows/git/issues/449">now 
+  includes</A> the <CODE>astextplain</CODE> script it lacked by mistake.</LI></UL>
+<H2>Changes since Git-2.5.2(2) (September 13th 2015)</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with Git 2.5.3.</LI>
+  <LI>Includes <A 
+  href="http://nvie.com/posts/a-successful-git-branching-model/"><CODE>git 
+  flow</CODE></A>.</LI>
+  <LI>By configuring <CODE>git config core.editor notepad</CODE>, users <A href="https://github.com/git-for-windows/git/issues/381">can 
+  now use <CODE>notepad.exe</CODE> as their default editor</A>. Configuring 
+  <CODE>git config format.commitMessageColumns 72</CODE> will be picked up by 
+  the notepad wrapper and line-wrap the commit message after the user edited 
+  it.</LI>
+  <LI>The Subversion bindings for use with <CODE>git svn</CODE> <A href="https://github.com/git-for-windows/git/issues/374">were 
+  upgraded to version 1.9.1</A>.</LI>
+  <LI>Some interactive console programs, e.g. <CODE>psql.exe</CODE>, <A href="https://github.com/git-for-windows/git/issues/399">now 
+  work in mintty thanks to pre-configured aliases</A>.</LI>
+  <LI>The mechanism to diff <CODE>.pdf</CODE>, <CODE>.doc</CODE> and 
+  <CODE>.docx</CODE> files known from Git for Windows 1.x <A href="https://github.com/git-for-windows/git/issues/355">has 
+  been ported to Git for Windows 2.x</A>.</LI>
+  <LI>Git can now <A 
+  href="https://github.com/git-for-windows/git/issues/370">access IPv6-only 
+  hosts via HTTP/HTTPS</A>.</LI></UL>
+<H3>Bug Fixes</H3>
+<UL>
+  <LI>The <CODE>.vimrc</CODE> in the home directory <A href="https://github.com/git-for-windows/git/issues/364">is 
+  now allowed to have DOS line endings</A>.</LI>
+  <LI>The <CODE>README.portable</CODE> file of the portable Git <A href="https://github.com/git-for-windows/git/issues/394">mentions 
+  the need to run <CODE>post-install.bat</CODE></A> when the archive was 
+  extracted manually.</LI>
+  <LI>Home directories for user names <A href="https://github.com/git-for-windows/git/issues/331">with 
+  non-ASCII characters</A> are <A href="https://github.com/git-for-windows/git/issues/336">handled</A> 
+  correctly <A 
+  href="https://github.com/git-for-windows/git/issues/383">now</A>.</LI>
+  <LI>The documentation <A href="https://github.com/git-for-windows/git/issues/404">no 
+  longer shows plain-text <CODE>linkgit:...</CODE> "links"</A> but proper 
+  hyperlinks instead.</LI>
+  <LI>The <CODE>mtab</CODE> link <A href="https://github.com/git-for-windows/git/issues/405">is 
+  written to <CODE>/etc/mtab</CODE> again, as it should</A>.</LI>
+  <LI>When run inside the PowerShell, Git no longer gets confused when the 
+  current directory's path and what is recorded in the file system differs in 
+  case (e.g. "GIT/" vs "Git/").</LI></UL>
+<H2>Changes since Git-2.5.2 (September 10th 2015)</H2>
+<H3>Bug Fixes</H3>
+<UL>
+  <LI>The Git GUI <A 
+  href="https://github.com/git-for-windows/git/issues/376">can be launched from 
+  the Start menu again</A>.</LI>
+  <LI>It <A href="https://github.com/git-for-windows/git/pull/305">now works</A> 
+  to call <CODE>git add -p -- .</CODE> when there is a large number of 
+  files.</LI>
+  <LI>The Arrow keys can be used in the Bash history again <A href="https://github.com/git-for-windows/git/issues/353">when 
+  run in the Windows console</A>.</LI>
+  <LI>Tab completion in the context of a large Active Directory <A href="https://github.com/git-for-windows/git/issues/377">is 
+  no longer slow</A>.</LI></UL>
+<H2>Changes since Git-2.5.1 (August 31th 2015)</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with Git 2.5.2</LI>
+  <LI>Alternates <A href="https://github.com/git-for-windows/git/pull/286">can 
+  now point to UNC paths</A>, i.e. network drives.</LI></UL>
+<H3>Bug Fixes</H3>
+<UL>
+  <LI>The MSYS2 runtime was taught <A href="https://github.com/git-for-windows/git/issues/193">not 
+  to look hard for groups</A>, speeding up <EM>Git Bash</EM>'s startup 
+time.</LI>
+  <LI>A <A href="https://github.com/git-for-windows/git/issues/361">work 
+  around</A> was added for <A href="https://github.com/git-for-windows/git/wiki/32-bit-issues">issues</A> 
+  when installing 32-bit Git for Windows on 64-bit Windows 10.</LI>
+  <LI>The installer <A 
+  href="https://github.com/git-for-windows/git/issues/351">no longer freezes</A> 
+  when there are interactive commands in the user's <CODE>.profile</CODE>.</LI>
+  <LI><CODE>git rebase --skip</CODE> <A href="https://github.com/git-for-windows/git/issues/365">was 
+  speeded up again</A>.</LI>
+  <LI>The redirector in <CODE>/bin/bash.exe</CODE> now adjusts the 
+  <CODE>PATH</CODE> environment variable correctly (i.e. so that Git's 
+  executables are found) before launching the <EM>real</EM> Bash, even when 
+  called without <CODE>--login</CODE>.</LI>
+  <LI>When installing Git for Windows to a location whose path is longer than 
+  usual, Git commands <A href="https://github.com/git-for-windows/git/issues/303">no 
+  longer trigger occasional <CODE>Bad address</CODE> errors</A>.</LI>
+  <LI>Git <A href="https://github.com/git-for-windows/git/issues/329">no longer 
+  asks for a DVD to be inserted again</A> when one has been ejected from the 
+  <CODE>D:</CODE> drive.</LI></UL>
+<H2>Changes since Git-2.5.0 (August 18th 2015)</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with Git 2.5.1</LI></UL>
+<H3>Bug Fixes</H3>
+<UL>
+  <LI>Backspace <A 
+  href="https://github.com/git-for-windows/git/issues/282">works now</A> with 
+  ConHost-based (<CODE>cmd.exe</CODE>) terminal.</LI>
+  <LI>When there is a <CODE>~/.bashrc</CODE> but no 
+  <CODE>~/.bash_profile</CODE>, <A href="https://github.com/git-for-windows/build-extra/pull/71">the 
+  latter will be created automatically</A>.</LI>
+  <LI>When calling a non-login shell, <A href="https://github.com/git-for-windows/build-extra/pull/72">the 
+  prompt now works</A>.</LI>
+  <LI>The text in the installer describing the terminal emulator options <A 
+  href="https://github.com/git-for-windows/build-extra/pull/69">is no longer cut 
+  off</A>.</LI>
+  <LI>The <CODE>connect.exe</CODE> tool to allow SSH connections via 
+  HTTP/HTTPS/SOCKS proxies <A href="https://github.com/git-for-windows/build-extra/pull/73">is 
+  included in Git for Windows again</A>, as it was in Git for Windows 1.x.</LI>
+  <LI>The <CODE>LANG</CODE> variable is <A href="https://github.com/git-for-windows/git/issues/298">no 
+  longer left unset</A> (which caused troubles with vim).</LI>
+  <LI><CODE>call start-ssh-agent</CODE> <A href="https://github.com/git-for-windows/git/issues/314">no 
+  longer spits out bogus lines</A>.</LI>
+  <LI>It is now possible <A href="https://github.com/git-for-windows/git/issues/309">even 
+  behind NTLM-authenticated proxies</A> to install <A href="https://git-for-windows.github.io/#download-sdk">Git 
+  for Windows' SDK</A>.</LI>
+  <LI>We <A href="https://github.com/git-for-windows/git/issues/318">can handle 
+  the situation now</A> when the first <CODE>$PATH</CODE> elements point outside 
+  of Git for Windows' <CODE>bin/</CODE> directories and contain 
+  <CODE>.dll</CODE> files that interfere with our own (e.g. PostgreSQL's 
+  <CODE>libintl-8.dll</CODE>).</LI>
+  <LI>The <CODE>patch</CODE> tool <A href="https://github.com/git-for-windows/build-extra/pull/74">is 
+  now included again</A> as it was in Git for Windows 1.x.</LI></UL>
+<H2>Changes since Git-2.4.6 (July 18th 2015)</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with Git 2.5.0</LI>
+  <LI>On Windows 7 and later, <A href="https://github.com/git-for-windows/git/issues/263">the 
+  <EM>Git Bash</EM> can now correctly be pinned to the task bar</A>.</LI></UL>
+<H3>Bug Fixes</H3>
+<UL>
+  <LI>The size of the installers <A href="https://github.com/git-for-windows/git/issues/262">was 
+  reduced again</A>, almost to the levels of Git for Windows 1.x.</LI>
+  <LI>Under certain circumstances, when the Windows machine is part of a Windows 
+  domain with lots of users, the startup of the <EM>Git Bash</EM> <A href="https://github.com/git-for-windows/git/issues/193">is 
+  now faster</A>.</LI>
+  <LI>Git <A href="https://github.com/git-for-windows/git/issues/255">no longer 
+  warns about being unable to read bogus Git attributes</A>.</LI></UL>
+<H2>Changes since Git-2.4.5 (June 29th 2015)</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with Git 2.4.6</LI></UL>
+<H3>Bug Fixes</H3>
+<UL>
+  <LI>Git for Windows handles symlinks now, <A href="https://github.com/git-for-windows/git/pull/220">even 
+  if core.symlinks does not tell Git to generate symlinks itself</A>.</LI>
+  <LI><CODE>git svn</CODE> learned <A href="https://github.com/git-for-windows/git/pull/246"><EM>not</EM> 
+  to reuse incompatible on-disk caches left over from previous Git for Windows 
+  versions</A>.</LI></UL>
+<H2>Changes since Git-2.4.4 (June 20th 2015)</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with Git 2.4.5</LI></UL>
+<H3>Bug Fixes</H3>
+<UL>
+  <LI>Git Bash <A href="https://github.com/git-for-windows/git/issues/222">no 
+  longer crashes when called with <CODE>TERM=msys</CODE></A>. This reinstates 
+  compatibility with GitHub for Windows.</LI></UL>
+<H2>Changes since Git-2.4.3 (June 12th 2015)</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with Git 2.4.4</LI>
+  <LI>The POSIX-to-Windows path mangling <A href="https://github.com/git-for-windows/msys2-runtime/pull/11">can 
+  now be turned off</A> by setting the <CODE>MSYS_NO_PATHCONV</CODE> environment 
+  variable. This even works for individual command lines: 
+  <CODE>MSYS_NO_PATHCONV=1 cmd /c dir /x</CODE> will list the files in the 
+  current directory along with their 8.3 versions.</LI></UL>
+<H3>Bug Fixes</H3>
+<UL>
+  <LI><CODE>git-bash.exe</CODE> <A href="https://github.com/git-for-windows/git/issues/130">no 
+  longer changes the working directory to the user's home directory</A>.</LI>
+  <LI>Git <A href="https://github.com/msysgit/git/issues/359">can now clone into 
+  a drive root</A>, e.g. <CODE>C:\</CODE>.</LI>
+  <LI>For backwards-compatibility, redirectors are installed into 
+  <CODE>/bin/bash.exe</CODE> and <CODE>/bin/git.exe</CODE>, e.g. <A href="https://github.com/git-for-windows/git/issues/208">to 
+  support SourceTree and TortoiseGit better</A>.</LI>
+  <LI>When using <CODE>core.symlinks = true</CODE> while cloning repositories 
+  with symbolic links pointing to directories, <A href="https://github.com/git-for-windows/git/issues/210"><CODE>git 
+  status</CODE> no longer shows bogus modifications</A>.</LI></UL>
+<H2>Changes since Git-2.4.2 (May 27th 2015)</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with Git 2.4.3</LI></UL>
+<H3>Bug Fixes</H3>
+<UL>
+  <LI><A href="https://github.com/git-for-windows/git/issues/163">We include 
+  <CODE>diff.exe</CODE></A> just as it was the case in Git for Windows 1.x</LI>
+  <LI>The certificates for accessing remote repositories via HTTPS <A href="https://github.com/git-for-windows/git/issues/168">are 
+  found on XP again</A>.</LI>
+  <LI><CODE>clear.exe</CODE> and the cursor keys in vi <A href="https://github.com/git-for-windows/git/issues/169">work 
+  again</A> when Git Bash is run in Windows' default console window 
+  ("ConHost").</LI>
+  <LI>The ACLs of the user's temporary directory are no longer modified when 
+  mounting <CODE>/tmp/</CODE> 
+  (https://github.com/git-for-windows/git/issues/190).</LI>
+  <LI><EM>Git Bash Here</EM> works even from the context menu of the empty area 
+  in Windows Explorer's view of C:\, D:\, etc 
+  (https://github.com/git-for-windows/git/issues/176).</LI></UL>
+<H2>Changes since Git-2.4.1 (May 14th 2015)</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>On Windows Vista and later, <A href="https://github.com/git-for-windows/git/pull/156">NTFS 
+  junctions can be used to emulate symlinks now</A>; To enable this emulation, 
+  the <CODE>MSYS</CODE> environment variable needs to be set to 
+  <CODE>winsymlinks:nativestrict</CODE>.</LI>
+  <LI>The <EM>Git Bash</EM> learned to support <A href="https://github.com/git-for-windows/git/commit/ac6b03cb4">several 
+  options to support running the Bash in arbitrary terminal 
+emulators</A>.</LI></UL>
+<H3>Bug Fixes</H3>
+<UL>
+  <LI>Just like Git for Windows 1.x, <A href="https://github.com/git-for-windows/build-extra/pull/59">pressing 
+  Shift+Tab in the Git Bash triggers tab completion</A>.</LI>
+  <LI><A 
+  href="https://github.com/git-for-windows/msys2-runtime/pull/9">Auto-mount the 
+  temporary directory of the current user to <CODE>/tmp/</CODE> again</A>, just 
+  like Git for Windows 1.x did (thanks to MSys1's hard-coded mount 
+point).</LI></UL>
+<H2>Changes since Git-2.4.0(2) (May 7th 2015)</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with Git 2.4.1</LI></UL>
+<H3>Bug Fixes</H3>
+<UL>
+  <LI>When selecting the standard Windows console window for <CODE>Git 
+  Bash</CODE>, a regression was fixed that triggered <A href="https://github.com/git-for-windows/git/issues/148">an 
+  extra console window</A> to be opened.</LI>
+  <LI>The password <A 
+  href="https://github.com/git-for-windows/git/issues/124">can be entered 
+  interactively again</A> when <CODE>git push</CODE>ing to a HTTPS 
+remote.</LI></UL>
+<H2>Changes since Git-2.4.0 (May 5th 2015)</H2>
+<H3>Bug Fixes</H3>
+<UL>
+  <LI>The <CODE>.sh</CODE> file association was fixed</LI>
+  <LI>The installer will now remove files from a previous Git for Windows 
+  versions, particularly important for 32-bit -&gt; 64-bit upgrades</LI></UL>
+<H3>New Features</H3>
+<UL>
+  <LI>The installer now offers the choice between opening the <EM>Git Bash</EM> 
+  in a MinTTY (default) or a regular Windows console window (Git for Windows 
+  1.x' setting).</LI></UL>
+<H2>Changes since Git-2.3.7-preview20150429</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with Git 2.4.0</LI>
+  <LI>Git for Windows now installs its configuration into a Windows-wide 
+  location: <CODE>%PROGRAMDATA%\Git\config</CODE> (which will be shared by 
+  libgit2-based applications with the next libgit2 version)</LI></UL>
+<H3>Bug Fixes</H3>
+<UL>
+  <LI>Fixed a regression where <EM>Git Bash</EM> would not start properly on 
+  Windows XP</LI>
+  <LI>Tab completion works like on Linux and MacOSX (double-Tab required to show 
+  ambiguous completions)</LI>
+  <LI>In 32-bit setups, all the MSYS2 <CODE>.dll</CODE>'s address ranges are 
+  adjusted ("auto-rebased") as part of the installation process</LI>
+  <LI>The post-install scripts of MSYS2 are now executed as part of the 
+  installation process, too</LI>
+  <LI>All files that are part of the installation will now be registered so they 
+  are deleted upon uninstall</LI></UL>
+<H2>Changes since Git-2.3.6-preview20150425</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with Git 2.3.7</LI></UL>
+<H3>Bug Fix</H3>
+<UL>
+  <LI>A flawed "fix" that ignores submodules during rebases was dropped</LI>
+  <LI>The home directory can be overridden using the <CODE>$HOME</CODE> 
+  environment variable again</LI></UL>
+<H2>Changes since Git-2.3.5-preview20150402</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with Git 2.3.6</LI></UL>
+<H3>Bug Fixes</H3>
+<UL>
+  <LI>Fixed encoding issues in Git Bash and keept the TMP environment variable 
+  intact.</LI>
+  <LI>Downgraded the <CODE>nettle</CODE> packages due to an <A href="https://github.com/Alexpux/MINGW-packages/issues/549"><EM>MSYS2</EM> 
+  issue</A></LI>
+  <LI>A couple of fixes to the Windows-specific Git wrapper</LI>
+  <LI>Git wrapper now refuses to use <CODE>$HOMEDRIVE$HOMEPATH</CODE> if it 
+  points to a non-existing directory (this can happen if it points to a network 
+  drive that just so happens to be Disconnected Right Now).</LI>
+  <LI>Much smoother interaction with the <CODE>mintty</CODE> terminal 
+  emulator</LI>
+  <LI>Respects the newly introduced Windows-wide 
+  <CODE>%PROGRAMDATA%\Git\config</CODE> configuration</LI></UL>
+<H2>Changes since Git-1.9.5-preview20150402</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with Git 2.3.5 plus Windows-specific patches.</LI>
+  <LI>First release based on <A href="https://msys2.github.io/">MSYS2</A>.</LI>
+  <LI>Support for 64-bit!</LI></UL>
+<H3>Backwards-incompatible changes</H3>
+<UL>
+  <LI>The development environment changed completely from the previous version 
+  (maybe introducing some regressions).</LI>
+  <LI>No longer ships with Git Cheetah (because there are better-maintained 
+  Explorer extensions out there).</LI></UL>
+<H2>Changes since Git-1.9.5-preview20141217</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with Git 1.9.5 plus Windows-specific patches.</LI>
+  <LI>Make <CODE>vimdiff</CODE> usable with <CODE>git mergetool</CODE>.</LI></UL>
+<H3>Security Updates</H3>
+<UL>
+  <LI>Mingw-openssl to 0.9.8zf and msys-openssl to 1.0.1m</LI>
+  <LI>Bash to 3.1.23(6)</LI>
+  <LI>Curl to 7.41.0</LI></UL>
+<H3>Bugfixes</H3>
+<UL>
+  <LI>ssh-agent: only ask for password if not already loaded</LI>
+  <LI>Reenable perl debugging ("perl -de 1" possible again)</LI>
+  <LI>Set icon background color for Windows 8 tiles</LI>
+  <LI>poll: honor the timeout on Win32</LI>
+  <LI>For <CODE>git.exe</CODE> alone, use the same HOME directory fallback 
+  mechanism as <CODE>/etc/profile</CODE></LI></UL>
+<H2>Changes since Git-1.9.4-preview20140929</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with Git 1.9.5 plus Windows-specific patches.</LI></UL>
+<H3>Bugfixes</H3>
+<UL>
+  <LI>Safeguards against bogus file names on NTFS (CVE-2014-9390).</LI></UL>
+<H2>Changes since Git-1.9.4-preview20140815</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with Git 1.9.4 plus Windows-specific patches.</LI></UL>
+<H3>Bugfixes</H3>
+<UL>
+  <LI>Update bash to patchlevel 3.1.20(4) (msysgit PR#254, msysgit issue 
+  #253).</LI>
+  <LI>Fixes CVE-2014-6271, CVE-2014-7169, CVE-2014-7186 and CVE-2014-7187.</LI>
+  <LI><CODE>gitk.cmd</CODE> now works when paths contain the ampersand (&amp;) 
+  symbol (msysgit PR #252)</LI>
+  <LI>Default to automatically close and restart applications in silent mode 
+  installation type</LI>
+  <LI><CODE>git svn</CODE> is now usable again (regression in previous update, 
+  msysgit PR#245)</LI></UL>
+<H2>Changes since Git-1.9.4-preview20140611</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with Git 1.9.4 plus Windows-specific patches</LI>
+  <LI>Add vimtutor (msysgit PR #220)</LI>
+  <LI>Update OpenSSH to 6.6.1p1 and its OpenSSL to 1.0.1i (msysgit PR #221, 
+  #223, #224, #226,  #229, #234, #236)</LI>
+  <LI>Update mingw OpenSSL to 0.9.8zb (msysgit PR #241, #242)</LI></UL>
+<H3>Bugfixes</H3>
+<UL>
+  <LI>Checkout problem with directories exceeding <CODE>MAX_PATH</CODE> (PR 
+  #212, msysgit #227)</LI>
+  <LI>Backport a webdav fix from <EM>junio/maint</EM> (d9037e http-push.c: make 
+  CURLOPT_IOCTLDATA a usable pointer, PR #230)</LI></UL>
+<H3>Regressions</H3>
+<UL>
+  <LI><CODE>git svn</CODE> is/might be broken. Fixes welcome.</LI></UL>
+<H2>Changes since Git-1.9.2-preview20140411</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with Git 1.9.4 plus Windows-specific patches.</LI></UL>
+<H3>Bugfixes</H3>
+<UL>
+  <LI>Upgrade openssl to 0.9.8za (msysgit PR #212)</LI>
+  <LI>Config option to disable side-band-64k for transport (#101)</LI>
+  <LI>Make <CODE>git-http-backend</CODE>, <CODE>git-http-push</CODE>, 
+  <CODE>git-http-fetch</CODE> available again (#174)</LI></UL>
+<H2>Changes since Git-1.9.0-preview20140217</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with Git 1.9.2 plus Windows-specific patches.</LI>
+  <LI>Custom installer settings can be saved and loaded, for unsupervised 
+  installation on batches of machines (msysGit PR #168).</LI>
+  <LI>Comes with VIM 7.4 (msysGit PR #170).</LI>
+  <LI>Comes with ZLib 1.2.8.</LI>
+  <LI>Comes with xargs 4.4.2.</LI></UL>
+<H3>Bugfixes</H3>
+<UL>
+  <LI>Work around stack limitations when listing an insane number of tags (PR 
+  #154).</LI>
+  <LI>Assorted test fixes (PRs #156, #158).</LI>
+  <LI>Compile warning fix in config.c (PR #159).</LI>
+  <LI>Ships with actual dos2unix and unix2dos.</LI>
+  <LI>The installer no longer recommends mixing with Cygwin.</LI>
+  <LI>Fixes a regression in Git-Cheetah which froze the Explorer upon calling 
+  Git Bash from the context menu (Git-Cheetah PRs #14 and #15).</LI></UL>
+<H2>Changes since Git-1.8.5.2-preview20131230</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with Git 1.9.0 plus Windows-specific patches.</LI>
+  <LI>Better work-arounds for Windows-specific path length limitations (pull 
+  request #122)</LI>
+  <LI>Uses optimized TortoiseGitPLink when detected (msysGit pull request 
+  #154)</LI>
+  <LI>Allow Windows users to use Linux Git on their files, using <A href="http://www.vagrantup.com/">Vagrant</A> 
+  (msysGit pull request #159)</LI>
+  <LI>InnoSetup 5.5.4 is now used to generate the installer (msysGit pull 
+  request #167)</LI></UL>
+<H3>Bugfixes</H3>
+<UL>
+  <LI>Fixed regression with interactive password prompt for remotes using the 
+  HTTPS protocol (issue #111)</LI>
+  <LI>We now work around Subversion servers printing non-ISO-8601-compliant time 
+  stamps (pull request #126)</LI>
+  <LI>The installer no longer sets the HOME environment variable (msysGit pull 
+  request #166)</LI>
+  <LI>Perl no longer creates empty <CODE>sys$command</CODE> files when no stdin 
+  is connected (msysGit pull request #152)</LI></UL>
+<H2>Changes since Git-1.8.4-preview20130916</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with Git 1.8.5.2 plus Windows-specific patches.</LI>
+  <LI>Windows-specific patches are now grouped into pseudo-branches which should 
+  make future development robust despite slow uptake of the Windows-specific 
+  patches by upstream git.git.</LI>
+  <LI>Works around more path length limitations (pull request #86)</LI>
+  <LI>Has an optional <CODE>stat()</CODE> cache toggled via 
+  <CODE>core.fscache</CODE> (pull request #107)</LI></UL>
+<H3>Bugfixes</H3>
+<UL>
+  <LI>Lots of installer fixes</LI>
+  <LI><CODE>git-cmd</CODE>: Handle home directory on a different drive correctly 
+  (pull request #146)</LI>
+  <LI><CODE>git-cmd</CODE>: add a helper to work with the ssh agent (pull 
+  request #135)</LI>
+  <LI>Git-Cheetah: prevent duplicate menu entries (pull request #7)</LI>
+  <LI>No longer replaces <CODE>dos2unix</CODE> with <CODE>hd2u</CODE> (a more 
+  powerful, but slightly incompatible version of dos2unix)</LI></UL>
+<H2>Changes since Git-1.8.3-preview20130601</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with Git 1.8.4 plus Windows specific patches.</LI>
+  <LI>Enabled unicode support in bash (#42 and #79)</LI>
+  <LI>Included <CODE>iconv.exe</CODE> to assist in writing encoding filters</LI>
+  <LI>Updated openssl to 0.9.8y</LI></UL>
+<H3>Bugfixes</H3>
+<UL>
+  <LI>Avoid emitting non-printing chars to set console title.</LI>
+  <LI>Various encoding fixes for the git test suite</LI>
+  <LI>Ensure wincred handles empty username/password.</LI></UL>
+<H2>Changes since Git-1.8.1.2-preview20130201</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with Git 1.8.3 plus Windows specific patches.</LI>
+  <LI>Updated curl to 7.30.0 with IPv6 support enabled.</LI>
+  <LI>Updated gnupg to 1.4.13</LI>
+  <LI>Installer improvements for update or reinstall options.</LI></UL>
+<H3>Bugfixes</H3>
+<UL>
+  <LI>Avoid emitting color coded ls output to pipes.</LI>
+  <LI>ccache binary updated to work on XP.</LI>
+  <LI>Fixed association of .sh files setup by the installer.</LI>
+  <LI>Fixed registry-based explorer menu items for XP (#95)</LI></UL>
+<H2>Changes since Git-1.8.0-preview20121022</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with Git 1.8.1.2 plus Windows specific patches.</LI>
+  <LI>Includes support for using the Windows Credential API to store access 
+  credentials securely and provide access via the control panel tool to manage 
+  git credentials.</LI>
+  <LI>Rebase autosquash support is now enabled by default. See <A href="http://goo.gl/2kwKJ">http://goo.gl/2kwKJ</A> 
+  for some suggestions on using this.</LI>
+  <LI>All msysGit development is now done on 'master' and the devel branches are 
+  deleted.</LI>
+  <LI>Tcl/Tk upgraded to 8.5.13.</LI>
+  <LI>InnoSetup updated to 5.5.3 (Unicode)</LI></UL>
+<H3>Bugfixes</H3>
+<UL>
+  <LI>Some changes to avoid clashing with cygwin quite so often.</LI>
+  <LI>The installer will attempt to handle files mirrored in the 
+  virtualstore.</LI></UL>
+<H2>Changes since Git-1.7.11-preview20120710</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with Git 1.8.0 plus Windows specific patches.</LI>
+  <LI>InnoSetup updated to 5.5.2</LI></UL>
+<H3>Bugfixes</H3>
+<UL>
+  <LI>Fixed icon backgrounds on low color systems</LI>
+  <LI>Avoid installer warnings during writability testing.</LI>
+  <LI>Fix bash prompt handling due to upstream changes.</LI></UL>
+<H2>Changes since Git-1.7.11-preview20120704</H2>
+<H3>Bugfixes</H3>
+<UL>
+  <LI>Propagate error codes from git wrapper (issue #43, #45)</LI>
+  <LI>Include CAcert root certificates in SSL bundle (issue #37)</LI></UL>
+<H2>Changes since Git-1.7.11-preview20120620</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with the beautiful Git logo from <A href="http://git-scm.com/downloads/logos">http://git-scm.com/downloads/logos</A></LI>
+  <LI>The installer no longer asks for the directory and program group when 
+  updating</LI>
+  <LI>The installer now also auto-detects TortoisePlink that comes with 
+  TortoiseGit</LI></UL>
+<H3>Bugfixes</H3>
+<UL>
+  <LI>Git::SVN is correctly installed again</LI>
+  <LI>The default format for git help is HTML again</LI>
+  <LI>Replaced the git.cmd script with an exe wrapper to fix issue #36</LI>
+  <LI>Fixed executable detection to speed up help -a display.</LI></UL>
+<H2>Changes since Git-1.7.10-preview20120409</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with Git 1.7.11 plus Windows specific patches.</LI>
+  <LI>Updated curl to 7.26.0</LI>
+  <LI>Updated zlib to 1.2.7</LI>
+  <LI>Updated Inno Setup to 5.5.0 and avoid creating symbolic links (issue 
+  #16)</LI>
+  <LI>Updated openssl to 0.9.8x and support reading certificate files from 
+  Unicode paths (issue #24)</LI>
+  <LI>Version resource built into <CODE>git</CODE> executables.</LI>
+  <LI>Support the Large Address Aware feature to reduce chance out-of-memory on 
+  64 bit windows when repacking large repositories.</LI></UL>
+<H3>Bugfixes</H3>
+<UL>
+  <LI>Please refer to the release notes for official Git 1.7.11.</LI>
+  <LI>Fix backspace/delete key handling in <CODE>rxvt</CODE> terminals.</LI>
+  <LI>Fixed TERM setting to avoid a warning from <CODE>less</CODE>.</LI>
+  <LI>Various fixes for handling unicode paths.</LI></UL>
+<H2>Changes since Git-1.7.9-preview20120201</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with Git 1.7.10 plus Windows specific patches.</LI>
+  <LI>UTF-8 file name support.</LI></UL>
+<H3>Bugfixes</H3>
+<UL>
+  <LI>Please refer to the release notes for official Git 1.7.10.</LI>
+  <LI>Clarifications in the installer.</LI>
+  <LI>Console output is now even thread-safer.</LI>
+  <LI>Better support for foreign remotes (Mercurial remotes are disabled for 
+  now, due to lack of a Python version that can be compiled within the 
+  development environment).</LI>
+  <LI>Git Cheetah no longer writes big log files directly to 
+  <CODE>C:\</CODE>.</LI>
+  <LI>Development environment: enhancements in the script to make a 64-bit 
+  setup.</LI>
+  <LI>Development environment: enhancements to the 64-bit Cheetah build.</LI></UL>
+<H2>Changes since Git-1.7.8-preview20111206</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with Git 1.7.9 plus Windows specific patches.</LI>
+  <LI>Improvements to the installer running application detection.</LI></UL>
+<H3>Bugfixes</H3>
+<UL>
+  <LI>Please refer to the release notes for official Git 1.7.9</LI>
+  <LI>Fixed initialization of the git-cheetah submodule in net-installer.</LI>
+  <LI>Fixed duplicated context menu items with git-cheetah on Windows 7.</LI>
+  <LI>Patched gitk to display filenames when run on a subdirectory.</LI>
+  <LI>Tabbed gitk preferences dialog to allow use on smaller screens.</LI></UL>
+<H2>Changes since Git-1.7.7.1-preview20111027</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with Git 1.7.8 plus Windows specific patches.</LI>
+  <LI>Updated Tcl/Tk to 8.5.11 and libiconv to 1.14</LI>
+  <LI>Some changes to support building with MSVC compiler.</LI></UL>
+<H3>Bugfixes</H3>
+<UL>
+  <LI>Please refer to the release notes for official Git 1.7.8</LI>
+  <LI>Git documentation submodule location fixed.</LI></UL>
+<H2>Changes since Git-1.7.7-preview20111014</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with Git 1.7.7.1 plus patches.</LI></UL>
+<H3>Bugfixes</H3>
+<UL>
+  <LI>Please refer to the release notes for official Git 1.7.7.1</LI>
+  <LI>Includes an important upstream fix for a bug that sometimes corrupts the 
+  git index file.</LI></UL>
+<H2>Changes since Git-1.7.6-preview20110708</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with Git 1.7.7 plus patches.</LI>
+  <LI>Updated gzip/gunzip and include <CODE>unzip</CODE> and 
+  <CODE>gvim</CODE></LI>
+  <LI>Primary repositories moved to <A 
+  href="http://github.com/msysgit/">GitHub</A></LI></UL>
+<H3>Bugfixes</H3>
+<UL>
+  <LI>Please refer to the release notes for official Git 1.7.7</LI>
+  <LI>Re-enable <CODE>vim</CODE> highlighting</LI>
+  <LI>Fixed issue with <CODE>libiconv</CODE>/<CODE>libiconv-2</CODE> 
+  location</LI>
+  <LI>Fixed regressions in Git Bash script</LI>
+  <LI>Fixed installation of mergetools for <CODE>difftool</CODE> and 
+  <CODE>mergetool</CODE> use and launching of beyond compare on windows.</LI>
+  <LI>Fixed warning about mising hostname during <CODE>git fetch</CODE></LI></UL>
+<H2>Changes since Git-1.7.4-preview20110211</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with Git 1.7.6 plus patches.</LI>
+  <LI>Updates to various supporting tools (openssl, iconv, InnoSetup)</LI></UL>
+<H3>Bugfixes</H3>
+<UL>
+  <LI>Please refer to the release notes for official Git 1.7.6</LI>
+  <LI>Fixes to msys compat layer for directory entry handling and command line 
+  globbing.</LI></UL>
+<H2>Changes since Git-1.7.3.2-preview20101025</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with Git 1.7.4 plus patches.</LI>
+  <LI>Includes antiword to enable viewing diffs of <CODE>.doc</CODE> files</LI>
+  <LI>Includes poppler to enable viewing diffs of <CODE>.pdf</CODE> files</LI>
+  <LI>Removes cygwin paths from the bash shell PATH</LI></UL>
+<H3>Bugfixes</H3>
+<UL>
+  <LI>Please refer to the release notes for official Git 1.7.4</LI></UL>
+<H2>Changes since Git-1.7.3.1-preview20101002</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with Git 1.7.3.2 plus patches.</LI></UL>
+<H2>Changes since Git-1.7.2.3-preview20100911</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with Git 1.7.3.1 plus patches.</LI>
+  <LI>Updated to Vim 7.3, file-5.04 and InnoSetup 5.3.11</LI></UL>
+<H3>Bugfixes</H3>
+<UL>
+  <LI>Issue 528 (remove uninstaller from Start Menu) was fixed</LI>
+  <LI>Issue 527 (failing to find the certificate authority bundle) was 
+fixed</LI>
+  <LI>Issue 524 (remove broken and unused <CODE>sdl-config</CODE> file) was 
+  fixed</LI>
+  <LI>Issue 523 (crash pushing to WebDAV remote) was fixed</LI></UL>
+<H2>Changes since Git-1.7.1-preview20100612</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with Git 1.7.2.3 plus patches.</LI></UL>
+<H3>Bugfixes</H3>
+<UL>
+  <LI>Issue 519 (build problem with <CODE>compat/regex/regexec.c</CODE>) was 
+  fixed</LI>
+  <LI>Issue 430 (size of panes not preserved in <CODE>git-gui</CODE>) was 
+  fixed</LI>
+  <LI>Issue 411 (<CODE>git init</CODE> failing to work with CIFS paths) was 
+  fixed</LI>
+  <LI>Issue 501 (failing to clone repo from root dir using relative path) was 
+  fixed</LI></UL>
+<H2>Changes since Git-1.7.0.2-preview20100309</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with Git 1.7.1 plus patches.</LI></UL>
+<H3>Bugfixes</H3>
+<UL>
+  <LI>Issue 27 (<CODE>git-send-mail</CODE> not working properly) was fixed 
+  again</LI>
+  <LI>Issue 433 (error while running <CODE>git svn fetch</CODE>) was fixed</LI>
+  <LI>Issue 427 (Gitk reports error: "couldn't compile regular expression 
+  pattern: invalid repetition count(s)") was fixed</LI>
+  <LI>Issue 192 (output truncated) was fixed again</LI>
+  <LI>Issue 365 (Out of memory? mmap failed) was fixed</LI>
+  <LI>Issue 387 (gitk reports "error: couldn't execute "git:" file name too 
+  long") was fixed</LI>
+  <LI>Issue 409 (checkout of large files to network drive fails on XP) was 
+  fixed</LI>
+  <LI>Issue 428 (The return value of <CODE>git.cmd</CODE> is not the same as 
+  <CODE>git.exe</CODE>) was fixed</LI>
+  <LI>Issue 444 (Git Bash Here returns a "File not found error" in Windows 7 
+  Professional - 64 bits) was fixed</LI>
+  <LI>Issue 445 (<CODE>git help</CODE> does nothing) was fixed</LI>
+  <LI>Issue 450 (<CODE>git --bare init</CODE> shouldn't set the directory to 
+  hidden.) was fixed</LI>
+  <LI>Issue 456 (git script fails with error code 1) was fixed</LI>
+  <LI>Issue 469 (error launch wordpad in last netinstall) was fixed</LI>
+  <LI>Issue 474 (<CODE>git update-index --index-info</CODE> silently does 
+  nothing) was fixed</LI>
+  <LI>Issue 482 (Add documentation to avoid "fatal: $HOME not set" error) was 
+  fixed</LI>
+  <LI>Issue 489 (<CODE>git.cmd</CODE> issues warning if <CODE>%COMSPEC%</CODE> 
+  has spaces in it) was fixed</LI>
+  <LI>Issue 436 (<CODE>mkdir : No such file or directory</CODE> error while 
+  using git-svn to fetch or rebase) was fixed</LI>
+  <LI>Issue 440 (Uninstall does not remove cheetah.) was fixed</LI>
+  <LI>Issue 441 (Git-1.7.0.2-preview20100309.exe installer fails with unwritable 
+  <CODE>msys-1.0.dll</CODE> when <CODE>ssh-agent</CODE> is running) was 
+  fixed</LI></UL>
+<H2>Changes since Git-1.6.5.1-preview20091022</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with official Git 1.7.0.2.</LI>
+  <LI>Comes with Git-Cheetah (on 32-bit Windows only, for now).</LI>
+  <LI>Comes with connect.exe, a SOCKS proxy.</LI>
+  <LI>Tons of improvements in the installer, thanks to Sebastian Schuberth.</LI>
+  <LI>On Vista, if possible, symlinks are used for the built-ins.</LI>
+  <LI>Features Hany's <CODE>dos2unix</CODE> tool, thanks to Sebastian 
+  Schuberth.</LI>
+  <LI>Updated Tcl/Tk to version 8.5.8 (thanks Pat Thoyts!).</LI>
+  <LI>By default, only <CODE>.git/</CODE> is hidden, to work around a bug in 
+  Eclipse (thanks to Erik Faye-Lund).</LI></UL>
+<H3>Bugfixes</H3>
+<UL>
+  <LI>Fixed threaded grep (thanks to Heiko Voigt).</LI>
+  <LI><CODE>git gui</CODE> was fixed for all kinds of worktree-related failures 
+  (thanks Pat Thoyts).</LI>
+  <LI><CODE>git gui</CODE> now fully supports themed widgets (thanks Pat Thoyts 
+  and Heiko Voigt).</LI>
+  <LI>Git no longer complains about an unset <CODE>RUNTIME_PREFIX</CODE> (thanks 
+  Johannes Sixt).</LI>
+  <LI><CODE>git gui</CODE> can Explore Working Copy on Windows again (thanks 
+  Markus Heidelberg).</LI>
+  <LI><CODE>git gui</CODE> can create shortcuts again (fixes issue 425, thanks 
+  Heiko Voigt).</LI>
+  <LI>When <CODE>git checkout</CODE> cannot overwrite files because they are in 
+  use, it will offer to try again, giving the user a chance to release the file 
+  (thanks Heiko Voigt).</LI>
+  <LI>Ctrl+W will close <CODE>gitk</CODE> (thanks Jens Lehmann).</LI>
+  <LI><CODE>git gui</CODE> no longer binds Ctrl+C, which caused problems when 
+  trying to use said shortcut for the clipboard operation "Copy" (fixes issue 
+  423, thanks Pat Thoyts).</LI>
+  <LI><CODE>gitk</CODE> does not give up when the command line length limit is 
+  reached (issue 387).</LI>
+  <LI>The exit code is fixed when <CODE>Git.cmd</CODE> is called from 
+  <CODE>cmd.exe</CODE> (thanks Alexey Borzenkov).</LI>
+  <LI>When launched via the (non-Cheetah) shell extension, the window icon is 
+  now correct (thanks Sebastian Schuberth).</LI>
+  <LI>Uses a TrueType font for the console, to be able to render UTF-8 
+  correctly.</LI>
+  <LI>Clarified the installer's line ending options (issue 370).</LI>
+  <LI>Substantially speeded up startup time from cmd unless 
+  <CODE>NO_FSTAB_THREAD</CODE> is set (thanks Johannes Sixt).</LI>
+  <LI>Update <CODE>msys-1.0.dll</CODE> yet again, to handle quoted parameters 
+  better (thanks Heiko Voigt).</LI>
+  <LI>Updated cURL to a version that supports SSPI.</LI>
+  <LI>Updated tar to handle the pax headers generated by git archive.</LI>
+  <LI>Updated sed to a version that can handle the filter-branch examples.</LI>
+  <LI><CODE>.git*</CODE> files can be associated with the default text editor 
+  (issue 397).</LI></UL>
+<H2>Changes since Git-1.6.4-preview20090729</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with official git 1.6.5.1.</LI>
+  <LI>Thanks to Johan 't Hart, files and directories starting with a single dot 
+  (such as <CODE>.git</CODE>) will now be marked hidden (you can disable this 
+  setting with core.hideDotFiles=false in your config) (Issue 288).</LI>
+  <LI>Thanks to Thorvald Natvig, Git on Windows can simulate symbolic links by 
+  using reparse points when available.  For technical reasons, this only works 
+  for symbolic links pointing to files, not directories.</LI>
+  <LI>A lot of work has been put into making it possible to compile Git's source 
+  code (the part written in C, of course, not the scripts) with Microsoft Visual 
+  Studio.  This work is ongoing.</LI>
+  <LI>Thanks to Sebastian Schuberth, we only offer the (Tortoise)Plink option in 
+  the installer if the presence of Plink was detected and at least one Putty 
+  session was found..</LI>
+  <LI>Thanks to Sebastian Schuberth, the installer has a nicer icon now.</LI>
+  <LI>Some more work by Sebastian Schuberth was done on better integration of 
+  Plink (Issues 305 &amp; 319).</LI></UL>
+<H3>Bugfixes</H3>
+<UL>
+  <LI>Thanks to Sebastian Schuberth, <CODE>git svn</CODE> picks up the SSH 
+  setting specified with the installer (Issue 305).</LI></UL>
+<H2>Changes since Git-1.6.3.2-preview20090608</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with official git 1.6.4.</LI>
+  <LI>Supports https:// URLs, thanks to Erik Faye-Lund.</LI>
+  <LI>Supports <CODE>send-email</CODE>, thanks to Erik Faye-Lund (Issue 
+27).</LI>
+  <LI>Updated Tcl/Tk to version 8.5.7, thanks to Pat Thoyts.</LI></UL>
+<H3>Bugfixes</H3>
+<UL>
+  <LI>The home directory is now discovered properly (Issues 108 &amp; 259).</LI>
+  <LI>IPv6 is supported now, thanks to Martin Martin Storsjö (Issue 
+182).</LI></UL>
+<H2>Changes since Git-1.6.3-preview20090507</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with official git 1.6.3.2.</LI>
+  <LI>Uses TortoisePlink instead of Plink if available.</LI></UL>
+<H3>Bugfixes</H3>
+<UL>
+  <LI>Plink errors out rather than hanging when the user needs to accept a host 
+  key first (Issue 96).</LI>
+  <LI>The user home directory is inferred from <CODE>$HOMEDRIVE\$HOMEPATH</CODE> 
+  instead of <CODE>$HOME</CODE> (Issue 108).</LI>
+  <LI>The environment setting <CODE>$CYGWIN=tty</CODE> is ignored (Issues 138, 
+  248 and 251).</LI>
+  <LI>The <CODE>ls</CODE> command shows non-ASCII filenames correctly now (Issue 
+  188).</LI>
+  <LI>Adds more syntax files for vi (Issue 250).</LI>
+  <LI><CODE>$HOME/.bashrc</CODE> is included last from 
+  <CODE>/etc/profile</CODE>, allowing <CODE>.bashrc</CODE> to override all 
+  settings in <CODE>/etc/profile</CODE> (Issue 255).</LI>
+  <LI>Completion is case-insensitive again (Issue 256).</LI>
+  <LI>The <CODE>start</CODE> command can handle arguments with spaces now (Issue 
+  258).</LI>
+  <LI>For some Git commands (such as <CODE>git commit</CODE>), <CODE>vi</CODE> 
+  no longer "restores" the cursor position.</LI></UL>
+<H2>Changes since Git-1.6.2.2-preview20090408</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with official git 1.6.3.</LI>
+  <LI>Thanks to Marius Storm-Olsen, Git has a substantially faster 
+  <CODE>readdir()</CODE> implementation now.</LI>
+  <LI>Marius Storm-Olsen also contributed a patch to include 
+  <CODE>nedmalloc</CODE>, again speeding up Git noticably.</LI>
+  <LI>Compiled with GCC 4.4.0</LI></UL>
+<H3>Bugfixes</H3>
+<UL>
+  <LI>Portable Git contains a <CODE>README.portable</CODE>.</LI>
+  <LI>Portable Git now actually includes the builtins.</LI>
+  <LI>Portable Git includes <CODE>git-cmd.bat</CODE> and 
+  <CODE>git-bash.bat</CODE>.</LI>
+  <LI>Portable Git is now shipped as a <CODE>.7z</CODE>; it still is a 
+  self-extracting archive if you rename it to <CODE>.exe</CODE>.</LI>
+  <LI>Git includes the Perl Encode module now.</LI>
+  <LI>Git now includes the <CODE>filter-branch</CODE> tool.</LI>
+  <LI>There is a workaround for a Windows 7 regression triggering a crash in the 
+  progress reporting (e.g. during a clone). This fixes issues 236 and 247.</LI>
+  <LI><CODE>gitk</CODE> tries not to crash when it is closed while reading 
+  references (Issue 125, thanks Pat Thoyts).</LI>
+  <LI>In some setups, hard-linking is not as reliable as it should be, so we 
+  have a workaround which avoids hard links in some situations (Issues 222 and 
+  229).</LI>
+  <LI><CODE>git-svn</CODE> sets <CODE>core.autocrlf</CODE> to <CODE>false</CODE> 
+  now, hopefully shutting up most of the <CODE>git-svn</CODE> reports.</LI></UL>
+<H2>Changes since Git-1.6.2.1-preview20090322</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with official git 1.6.2.2.</LI>
+  <LI>Upgraded Tcl/Tk to 8.5.5.</LI>
+  <LI>TortoiseMerge is supported by mergetool now.</LI>
+  <LI>Uses pthreads (faster garbage collection on multi-core machines).</LI>
+  <LI>The test suite passes!</LI></UL>
+<H3>Bugfixes</H3>
+<UL>
+  <LI>Renaming was made more robust (due to Explorer or some virus scanners, 
+  files could not be renamed at the first try, so we have to try multiple 
+  times).</LI>
+  <LI>Johannes Sixt made lots of changes to the test-suite to identify properly 
+  which tests should pass, and which ones cannot pass due to limitations of the 
+  platform.</LI>
+  <LI>Support <CODE>PAGER</CODE>s with spaces in their filename.</LI>
+  <LI>Quite a few changes were undone which we needed in the olden days of 
+  msysGit.</LI>
+  <LI>Fall back to <CODE>/</CODE> when HOME cannot be set to the real home 
+  directory due to locale issues (works around Issue 108 for the 
+moment).</LI></UL>
+<H2>Changes since Git-1.6.2-preview20090308</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with official git 1.6.2.1.</LI>
+  <LI>A portable application is shipped in addition to the installer (Issue 
+  195).</LI>
+  <LI>Comes with a Windows-specific <CODE>mmap()</CODE> implementation (Issue 
+  198).</LI></UL>
+<H3>Bugfixes</H3>
+<UL>
+  <LI>ANSI control characters are no longer shown verbatim (Issue 124).</LI>
+  <LI>Temporary files are created respecting <CODE>core.autocrlf</CODE> (Issue 
+  177).</LI>
+  <LI>The Git Bash prompt is colorful again (Issue 199).</LI>
+  <LI>Fixed crash when hardlinking during a clone failed (Issue 204).</LI>
+  <LI>An infinite loop was fixed in <CODE>git-gui</CODE> (Issue 205).</LI>
+  <LI>The ssh protocol is always used with <CODE>plink.exe</CODE> (Issue 
+  209).</LI>
+  <LI>More vim files are shipped now, so that syntax highlighting works.</LI></UL>
+<H2>Changes since Git-1.6.1-preview20081225</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with official git 1.6.2.</LI>
+  <LI>Comes with upgraded vim 7.2.</LI>
+  <LI>Compiled with GCC 4.3.3.</LI>
+  <LI>The user can choose the preferred CR/LF behavior in the installer 
+now.</LI>
+  <LI>Peter Kodl contributed support for hardlinks on Windows.</LI>
+  <LI>The bash prompt shows information about the current repository.</LI></UL>
+<H3>Bugfixes</H3>
+<UL>
+  <LI>If supported by the file system, pack files can grow larger than 2gb.</LI>
+  <LI>Comes with updated <CODE>msys-1.0.dll</CODE> (should fix some Vista 
+  issues).</LI>
+  <LI>Assorted fixes to support the new <CODE>libexec/git-core/</CODE> layout 
+  better.</LI>
+  <LI>Read-only files can be properly replaced now.</LI>
+  <LI><CODE>git-svn</CODE> is included again (original caveats still 
+apply).</LI>
+  <LI>Obsolete programs from previous installations are cleaned up.</LI></UL>
+<H2>Changes since Git-1.6.0.2-preview20080923</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with official git 1.6.1.</LI>
+  <LI>Avoid useless console windows.</LI>
+  <LI>Installer remembers how to handle PATH. </LI></UL>
+<H2>Changes since Git-1.6.0.2-preview20080921</H2>
+<H3>Bugfixes</H3>
+<UL>
+  <LI>ssh works again.</LI>
+  <LI><CODE>git add -p</CODE> works again.</LI>
+  <LI>Various programs that aborted with <CODE>Assertion failed: 
+  argv0_path</CODE> are fixed.</LI></UL>
+<H2>Changes since Git-1.5.6.1-preview20080701</H2>
+<UL>
+  <LI>Removed Features</LI>
+  <LI><CODE>git svn</CODE> is excluded from the end-user installer (see Known 
+  Issues).</LI></UL>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with official git 1.6.0.2.</LI></UL>
+<H3>Bugfixes</H3>
+<UL>
+  <LI>No Windows-specific bugfixes.</LI></UL>
+<H2>Changes since Git-1.5.6-preview20080622</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with official git 1.5.6.1.</LI></UL>
+<H3>Bugfixes</H3>
+<UL>
+  <LI>Includes fixed <CODE>msys-1.0.dll</CODE> that supports Vista and Windows 
+  Server 2008 (Issue 122).</LI>
+  <LI>cmd wrappers do no longer switch off echo.</LI></UL>
+<H2>Changes since Git-1.5.5-preview20080413</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with official git 1.5.6.</LI>
+  <LI>Installer supports configuring a user provided Plink (PuTTY).</LI></UL>
+<H3>Bugfixes</H3>
+<UL>
+  <LI>Comes with tweaked <CODE>msys-1.0.dll</CODE> to solve some command line 
+  mangling issues.</LI>
+  <LI>cmd wrapper does no longer close the command window.</LI>
+  <LI>Programs in the system <CODE>PATH</CODE>, for example editors, can be 
+  launched from Git without specifying their full path.</LI>
+  <LI><CODE>git stash apply stash@{1}</CODE> works.</LI>
+  <LI>Comes with basic ANSI control code emulation for the Windows console to 
+  avoid wrapping of pull/merge's diffstats.</LI>
+  <LI>Git correctly passes port numbers to PuTTY's Plink </LI></UL>
+<H2>Changes since Git-1.5.4-preview20080202</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with official git 1.5.5.</LI>
+  <LI><CODE>core.autocrlf</CODE> is enabled (<CODE>true</CODE>) by default. This 
+  means git converts to Windows line endings (CRLF) during checkout and converts 
+  to Unix line endings (LF) during commit. This is the right choice for 
+  cross-platform projects. If the conversion is not reversible, git warns the 
+  user. The installer warns about the new default before the installation 
+  starts.</LI>
+  <LI>The user does no longer have to "accept" the GPL but only needs to press 
+  "continue".</LI>
+  <LI>Installer deletes shell scripts that have been replaced by builtins. 
+  Upgrading should be safer.</LI>
+  <LI>Supports <CODE>git svn</CODE>. Note that the performance might be below 
+  your expectation.</LI></UL>
+<H3>Bugfixes</H3>
+<UL>
+  <LI>Newer ssh fixes connection failures (issue 74).</LI>
+  <LI>Comes with MSys-1.0.11-20071204.  This should solve some "fork: resource 
+  unavailable" issues.</LI>
+  <LI>All DLLs are rebased to avoid problems with "fork" on Vista.</LI></UL>
+<H2>Changes since Git-1.5.3.6-preview20071126</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Comes with official git 1.5.4.</LI>
+  <LI>Some commands that are not yet suppoted on Windows are no longer included 
+  (see Known Issues above).</LI>
+  <LI>Release notes are displayed in separate window.</LI>
+  <LI>Includes <CODE>qsort</CODE> replacement to improve performance on Windows 
+  2000.</LI></UL>
+<H3>Bugfixes</H3>
+<UL>
+  <LI>Fixes invalid error message that setup.ini cannot be deleted on 
+  uninstall.</LI>
+  <LI>Setup tries harder to finish the installation and reports more detailed 
+  errors.</LI>
+  <LI>Vim's syntax highlighting is suitable for dark background.</LI></UL>
+<H2>Changes since Git-1.5.3.5-preview20071114</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Git is included in version 1.5.3.6.</LI>
+  <LI>Setup displays release notes.</LI></UL>
+<H3>Bugfixes</H3>
+<UL>
+  <LI><CODE>pull</CODE>/<CODE>fetch</CODE>/<CODE>push</CODE> in 
+  <CODE>git-gui</CODE> works. Note, there is no way for <CODE>ssh</CODE> to ask 
+  for a passphrase or for confirmation if you connect to an unknown host. So, 
+  you must have ssh set up to work without passphrase. Either you have a key 
+  without passphrase, or you started ssh-agent. You may also consider using 
+  PuTTY by pointing <CODE>GIT_SSH</CODE> to <CODE>plink.exe</CODE> and handle 
+  your ssh keys with Pageant. In this case you should include your login name in 
+  urls. You must also connect to an unknown host once from the command line and 
+  confirm the host key, before you can use it from <CODE>git-gui</CODE>.</LI></UL>
+<H2>Changes since Git-1.5.3-preview20071027</H2>
+<H3>New Features</H3>
+<UL>
+  <LI>Git is included in version 1.5.3.5.</LI>
+  <LI>Setup can be installed as normal user.</LI>
+  <LI>When installing as Administrator, all icons except the Quick Launch icon 
+  will be created for all users.</LI>
+  <LI><CODE>git help user-manual</CODE> displays the user manual.</LI></UL>
+<H3>Bugfixes</H3>
+<UL>
+  <LI>Git Bash works on Windows XP 64.</LI></UL>
+<H2>Changes since Git-1.5.3-preview20071019</H2>
+<H3>Bugfixes</H3>
+<UL>
+  <LI>The templates for a new repository are found.</LI>
+  <LI>The global configuration <CODE>/etc/gitconfig</CODE> is found.</LI>
+  <LI>Git Gui localization works. It falls back to English if a translation has 
+  errors.</LI></UL>
+<H2>Changes since WinGit-0.2-alpha</H2>
+<UL>
+  <LI>The history of the release notes stops here. Various new features and 
+  bugfixes are available since WinGit-0.2-alpha. Please check the git history of 
+  the msysgit project for details.</LI></UL></DIV></BODY></HTML>
