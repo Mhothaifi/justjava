@@ -1,0 +1,113 @@
+<RelativeLayout
+   
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    android:background="@android:color/black"
+
+<TextView
+    android:text="maher "
+    android:id="@+id/maher_text_view"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentTop="true"
+    android:background="#03A9F4"
+    android:textColor="#AEEA00"
+    android:textAppearance="?android:textAppearanceLarge"/>
+    
+   <TextView
+    android:text="mr.ahmed"
+       android:id="@+id/ahmed_text_view"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+       android:textSize="45sp"
+       android:layout_alignParentLeft="true"
+    android:layout_alignParentTop="true"
+    android:background="#E53935"
+    android:textColor="#AEEA00"
+    android:textAppearance="?android:textAppearanceLarge"/> 
+    
+    <TextView
+    android:text="small"
+    android:id="@+id/small_text_view"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentBottom="true"
+    android:layout_centerHorizontal="true"
+        android:textSize="45sp"
+    android:background="#000000"
+    android:textColor="#AEEA00"
+    android:textAppearance="?android:textAppearanceLarge"/>
+    
+    <TextView
+        android:text="Bing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#03A9F4"
+    android:textColor="#AEEA00"
+        android:textSize="45sp"
+        android:layout_margin="8dp"
+        android:layout_toRightOf="@id/small_text_view"
+                
+        
+        />
+    
+    <TextView
+        android:text="Google"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_above="@id/small_text_view"
+        android:layout_centerHorizontal="true"
+        android:textSize="45sp"
+        
+        
+        />
+    
+    <TextView
+        android:text="mall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/mall_text_view"
+         android:layout_alignParentRight="true"
+        android:layout_below="@id/maher_text_view"
+        android:background="#000000"
+        android:textColor="#AEEA00"
+        android:textAppearance="?android:textAppearanceLarge"
+        
+       />
+    
+<TextView
+        android:text="house"
+        android:layout_width="wrap_content"
+    android:paddingRight="10dp"
+     android:paddingLeft="10dp"
+     android:paddingBottom="50dp"
+        android:layout_height="wrap_content"
+         android:layout_alignParentRight="true"
+        android:layout_below="@id/mall_text_view"
+        android:background="#000000"
+        android:textColor="#AEEA00"
+        android:textAppearance="?android:textAppearanceLarge"
+        
+       />
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:scaleType="center"
+         android:id="@+id/android_image_view"
+        android:layout_alignParentTop="true"
+        android:layout_below="@id/ahmed_text_view"
+        android:src="@drawable/android" />
+    
+<ImageView
+        android:layout_width="300dp"
+        android:layout_height="400dp"
+    android:layout_alignParentLeft="true"
+        android:layout_below="@id/android_image_view"
+        android:src="@drawable/ocean"
+    android:layout_margin="8dp"
+    />
+</RelativeLayout>

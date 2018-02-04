@@ -1,24 +1,52 @@
 <LinearLayout
     
     android:orientation="vertical"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    android:background="@android:color/darker_gray"
 
 <TextView
     android:text="Hapy Birthday maher "
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="#AB47BC"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#03A9F4"
     android:textColor="#AEEA00"
     android:textAppearance="?android:textAppearanceLarge"/>
+    
+   <TextView
+    android:text="Hapy Birthday maher "
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#E53935"
+    android:textColor="#AEEA00"
+    android:textAppearance="?android:textAppearanceLarge"/> 
+<TextView
+    android:text="This is me,,,Maher alhothaiif "
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#03A9F4"
+    android:textColor="#AEEA00"
+    android:textSize="50sp"
+    android:textAppearance="?android:textAppearanceSmall"/>
     
     
 <TextView
     android:text="This is me,,,Maher alhothaiif "
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="#AB47BC"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#9C27B0"
     android:textColor="#AEEA00"
     android:textAppearance="?android:textAppearanceSmall"/>
-
+    
 </LinearLayout>
+
+<?xml version="1.0" encoding="utf-8"?>
+<fragment xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_browse_fragment"
+    android:name="com.example.administrator.maher.MainFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.administrator.maher.MainActivity"
+    tools:deviceIds="tv"
+    tools:ignore="MergeRootFrame" />
